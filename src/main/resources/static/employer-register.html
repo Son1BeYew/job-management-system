@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Ký Nhà Tuyển Dụng - CareerViet</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/employer-login.css">
+    <style>
+        .register-stats {
+            padding: 40px 0;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        .stats-grid {
+            display: flex;
+            justify-content: space-around;
+            gap: 20px;
+        }
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: #666;
+            font-size: 14px;
+        }
+        .stat-item img {
+            width: 40px;
+            height: auto;
+            opacity: 0.7;
+        }
+        .stat-item strong {
+            color: #333;
+            font-size: 18px;
+            font-weight: 800;
+        }
+        .link-check-email {
+            color: var(--primary-blue);
+            font-size: 12px;
+            text-decoration: underline;
+            margin-top: -10px;
+            margin-bottom: 20px;
+            display: block;
+            font-weight: 600;
+        }
+        .step-title {
+            font-size: 18px;
+            font-weight: 500;
+            color: #444;
+            margin-bottom: 10px;
+        }
+        .step-desc {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body class="employer-login-page">
+    <!-- Header Placeholder -->
+    <div id="header-employer-placeholder"></div>
+
+    <main class="login-main">
+        <div class="container">
+            <div class="login-grid">
+                <!-- Left: Banner -->
+                <div class="login-banner">
+                    <img src="https://images.careerviet.vn/content/Banner_NhaTuyenDung_Careerviet.png" alt="CareerViet Employer">
+                </div>
+
+                <!-- Right: Form -->
+                <div class="login-form-container">
+                    <h2 class="step-title">BƯỚC 1 : THÔNG TIN ĐĂNG NHẬP</h2>
+                    <p class="step-desc">Quý khách sử dụng thông tin tài khoản này để đăng nhập vào CareerViet.vn</p>
+
+                    <form action="employer-register-step-2.html" method="GET">
+                        <div class="form-box">
+                            <div class="form-label-blue">EMAIL ĐĂNG NHẬP</div>
+                            <input type="email" class="form-input-field" placeholder="Vui lòng nhập thông tin" required>
+                        </div>
+
+                        <div class="form-box">
+                            <div class="form-label-blue">XÁC NHẬN EMAIL</div>
+                            <input type="email" class="form-input-field" placeholder="Vui lòng nhập thông tin" required>
+                        </div>
+                        
+                        <a href="#" class="link-check-email">Kiểm tra sự tồn tại của email</a>
+
+                        <div class="form-box">
+                            <div class="form-label-blue">MẬT KHẨU</div>
+                            <input type="password" class="form-input-field" required>
+                        </div>
+
+                        <div class="form-box">
+                            <div class="form-label-blue">XÁC NHẬN MẬT KHẨU</div>
+                            <input type="password" class="form-input-field" required>
+                        </div>
+
+                        <div class="form-footer">
+                            <button type="submit" class="btn-submit-teal" style="background-color: #00d1b2;">TIẾP TỤC</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Stats Footer -->
+            <div class="register-stats">
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" style="opacity: 0.5;">
+                            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                        </svg>
+                        <div>Hơn <strong>50.000</strong> hồ sơ cập nhật mỗi tháng</div>
+                    </div>
+                    <div class="stat-item">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" style="opacity: 0.5;">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="2" y1="12" x2="22" y2="12"></line>
+                            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                        </svg>
+                        <div>Website tuyển dụng toàn cầu <strong>duy nhất</strong> tại Việt Nam</div>
+                    </div>
+                    <div class="stat-item">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" style="opacity: 0.5;">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                        <div>Hơn <strong>18 triệu</strong> lượt xem mỗi tháng</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer Placeholder -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Zalo Chat -->
+    <a href="#" class="zalo-chat">
+        <img src="images/zalo-icon.png" alt="Zalo">
+    </a>
+
+    <script src="js/employer.js"></script>
+</body>
+</html>

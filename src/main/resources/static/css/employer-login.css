@@ -1,0 +1,186 @@
+/* ===== Employer Login Styles ===== */
+
+.employer-login-page {
+    background-color: #fff;
+    min-height: 100vh;
+}
+
+/* Announcement Bar */
+.announcement-bar {
+    background-color: #f0f7ff;
+    border-bottom: 1px solid #e1f0ff;
+    padding: 10px 0;
+    position: relative;
+    font-size: 13px;
+    color: #0066cc;
+    text-align: center;
+}
+
+.announcement-bar strong {
+    color: var(--primary-teal);
+}
+
+.btn-close-announcement {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #666;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* Login Main Content */
+.login-main {
+    padding: 60px 0;
+}
+
+.login-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+}
+
+/* Left side: Banner/Image */
+.login-banner img {
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(0 10px 30px rgba(0,0,0,0.1));
+}
+
+/* Right side: Form */
+.login-form-container {
+    padding-left: 20px;
+}
+
+.login-form-container h1 {
+    font-size: 28px;
+    font-weight: 800;
+    color: #002855;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+}
+
+.login-section-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.login-section-title h2 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #444;
+}
+
+.link-help {
+    color: var(--primary-teal);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+/* Custom Form Groups according to image */
+.form-box {
+    display: flex;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.form-label-blue {
+    background-color: #3b5998;
+    color: white;
+    padding: 8px 15px;
+    font-size: 12px;
+    font-weight: 700;
+    width: 150px;
+    min-height: 45px; /* Đảm bảo cả 2 ô cao bằng nhau */
+    display: flex;
+    align-items: center;
+    text-transform: uppercase;
+}
+
+.form-input-field {
+    flex: 1;
+    border: none;
+    padding: 8px 15px;
+    font-size: 13px;
+    color: #333;
+    outline: none;
+}
+
+.form-input-field::placeholder {
+    color: #999;
+}
+
+/* Footer Actions */
+.form-footer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.link-forgot {
+    color: #666;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.btn-submit-teal {
+    background-color: var(--primary-teal);
+    color: white;
+    border: none;
+    padding: 8px 30px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 800;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: background 0.2s;
+}
+
+.btn-submit-teal:hover {
+    background-color: #00bfa5;
+    transform: translateY(-1px);
+}
+
+.register-call {
+    margin-top: 40px;
+    text-align: right;
+    font-size: 14px;
+    color: #666;
+}
+
+.register-call a {
+    color: var(--primary-teal);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .login-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+    
+    .login-banner {
+        order: 2;
+    }
+    
+    .login-form-container {
+        order: 1;
+        padding-left: 0;
+    }
+}

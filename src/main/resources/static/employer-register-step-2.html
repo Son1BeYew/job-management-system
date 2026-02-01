@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Ký Nhà Tuyển Dụng - Bước 2 - CareerViet</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/employer-login.css">
+    <style>
+        .form-textarea {
+            flex: 1;
+            border: none;
+            padding: 10px 15px;
+            font-size: 13px;
+            color: #333;
+            outline: none;
+            min-height: 100px;
+            resize: vertical;
+            background: #f4f6f9;
+        }
+        .captcha-box {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 5px;
+        }
+        .captcha-img-wrapper {
+            background: #fff;
+            padding: 5px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .captcha-code {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 5px;
+            font-style: italic;
+            color: #333;
+            background: url('https://www.transparenttextures.com/patterns/pinstripe-dark.png');
+            padding: 5px 15px;
+            user-select: none;
+        }
+        .btn-refresh-captcha {
+            background: none;
+            border: none;
+            color: var(--primary-blue);
+            cursor: pointer;
+        }
+        .form-footer-between {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+        .btn-back {
+            background-color: #888;
+            color: white;
+            border: none;
+            padding: 8px 30px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 800;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+        .register-terms {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+            line-height: 1.6;
+        }
+        .register-terms a {
+            color: var(--primary-blue);
+            text-decoration: none;
+        }
+        .form-select-field {
+            flex: 1;
+            border: none;
+            padding: 8px 15px;
+            font-size: 13px;
+            color: #333;
+            outline: none;
+            background-color: #f4f6f9;
+            cursor: pointer;
+        }
+        .main-title-reg {
+            font-size: 24px;
+            font-weight: 800;
+            color: #002855;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body class="employer-login-page">
+    <!-- Header Placeholder -->
+    <div id="header-employer-placeholder"></div>
+
+    <main class="login-main">
+        <div class="container">
+            <div class="login-grid">
+                <!-- Left: Banner -->
+                <div class="login-banner">
+                    <img src="https://images.careerviet.vn/content/Banner_NhaTuyenDung_Careerviet.png" alt="CareerViet Employer">
+                </div>
+
+                <!-- Right: Form -->
+                <div class="login-form-container">
+                    <h1 class="main-title-reg">ĐĂNG KÝ TÀI KHOẢN NHÀ TUYỂN DỤNG</h1>
+                    <h2 class="step-title">BƯỚC 2 : THÔNG TIN CÔNG TY</h2>
+                    <p class="step-desc">Thông tin doanh nghiệp của Quý Công ty trên CareerViet</p>
+
+                    <form action="dashboard.html" method="GET">
+                        <div class="form-box">
+                            <div class="form-label-blue">TÊN CÔNG TY</div>
+                            <input type="text" class="form-input-field" placeholder="Vui lòng nhập thông tin" required style="background: #f4f6f9;">
+                        </div>
+
+                        <div class="form-box">
+                            <div class="form-label-blue">LOẠI HÌNH HOẠT ĐỘNG</div>
+                            <select class="form-select-field" required>
+                                <option value="">Vui lòng chọn</option>
+                                <option>Công ty Cổ phần</option>
+                                <option>Công ty TNHH</option>
+                                <option>Công ty Nhà nước</option>
+                                <option>Công ty Liên doanh</option>
+                                <option>Công ty 100% vốn nước ngoài</option>
+                            </select>
+                        </div>
+
+                        <div class="form-box">
+                            <div class="form-label-blue">CHỌN SỐ NHÂN VIÊN</div>
+                            <select class="form-select-field" required>
+                                <option value="">Chọn số nhân viên</option>
+                                <option>Ít hơn 10</option>
+                                <option>10 - 50</option>
+                                <option>50 - 100</option>
+                                <option>100 - 500</option>
+                                <option>Trên 500</option>
+                            </select>
+                        </div>
+
+                        <div class="form-box">
+                            <div class="form-label-blue">QUỐC GIA</div>
+                            <select class="form-select-field" required>
+                                <option selected>Việt Nam</option>
+                                <option>Singapore</option>
+                                <option>Thái Lan</option>
+                                <option>Mỹ</option>
+                            </select>
+                        </div>
+
+                        <div class="form-box">
+                            <div class="form-label-blue">TỈNH / TP</div>
+                            <select class="form-select-field" required>
+                                <option value="">Chọn Tỉnh/ TP</option>
+                                <option>TP. Hồ Chí Minh</option>
+                                <option>Hà Nội</option>
+                                <option>Đà Nẵng</option>
+                            </select>
+                        </div>
+
+                        <div class="form-box">
+                            <div class="form-label-blue">ĐỊA CHỈ CÔNG TY</div>
+                            <input type="text" class="form-input-field" placeholder="Vui lòng nhập thông tin" required style="background: #f4f6f9;">
+                        </div>
+
+                        <div class="form-box" style="align-items: stretch;">
+                            <div class="form-label-blue" style="min-height: 100px;">SƠ LƯỢC VỀ CÔNG TY</div>
+                            <textarea class="form-textarea" placeholder="Nhập tóm tắt giới thiệu công ty..."></textarea>
+                        </div>
+
+                        <div class="form-box">
+                            <div class="form-label-blue">TÊN NGƯỜI LIÊN HỆ</div>
+                            <input type="text" class="form-input-field" placeholder="Vui lòng nhập thông tin" required style="background: #f4f6f9;">
+                        </div>
+
+                        <div class="form-box">
+                            <div class="form-label-blue">ĐIỆN THOẠI</div>
+                            <input type="tel" class="form-input-field" placeholder="Vui lòng nhập thông tin" required style="background: #f4f6f9;">
+                        </div>
+
+                        <div class="form-box">
+                            <div class="form-label-blue">MÃ SỐ THUẾ</div>
+                            <input type="text" class="form-input-field" placeholder="Vui lòng nhập mã số thuế" style="background: #f4f6f9;">
+                        </div>
+
+                        <div class="form-box" style="margin-bottom: 5px;">
+                            <div class="form-label-blue">MÃ XÁC NHẬN</div>
+                            <input type="text" class="form-input-field" required style="background: #f4f6f9;">
+                        </div>
+                        
+                        <div class="captcha-box">
+                            <div class="captcha-img-wrapper">
+                                <div class="captcha-code">40748246</div>
+                                <button type="button" class="btn-refresh-captcha">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M23 4v6h-6"></path>
+                                        <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="form-footer-between">
+                            <button type="button" class="btn-back" onclick="history.back()">QUAY LẠI</button>
+                            <button type="submit" class="btn-submit-teal" style="background-color: #00d1b2;">ĐĂNG KÝ</button>
+                        </div>
+                    </form>
+
+                    <div class="register-terms">
+                        Bằng việc nhấp vào "Đăng Ký!", bạn đã đồng ý với các điều khoản ghi trong <a href="#">Thỏa thuận dịch vụ của CareerViet.vn</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer Placeholder -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Zalo Chat -->
+    <a href="#" class="zalo-chat">
+        <img src="images/zalo-icon.png" alt="Zalo">
+    </a>
+
+    <script src="js/employer.js"></script>
+</body>
+</html>

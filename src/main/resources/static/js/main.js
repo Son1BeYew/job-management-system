@@ -1,0 +1,131 @@
+// ===== Main JavaScript for CareerViet =====
+
+// ===== Load Header and Footer =====
+async function loadHTML(elementId, filePath) {
+    try {
+        const response = await fetch(filePath);
+        if (!response.ok) throw new Error(`Failed to load ${filePath}`);
+        const html = await response.text();
+        document.getElementById(elementId).innerHTML = html;
+    } catch (error) {
+        console.error('Error loading HTML:', error);
+    }
+}
+
+// Load header and footer when DOM is ready
+document.addEventListener('DOMContentLoaded', async function() {
+    // Load header and footer
+    await loadHTML('header-placeholder', 'includes/header.html');
+    await loadHTML('footer-placeholder', 'includes/footer.html');
+    
+    // Setup login dropdown after header is loaded (with small delay to ensure DOM is ready)
+    setTimeout(setupLoginDropdown, 100);
+});
+
+// Setup login dropdown toggle
+function setupLoginDropdown() {
+    const loginLink = document.querySelector('.login-link');
+    const loginWrapper = document.querySelector('.login-dropdown-wrapper');
+    
+    if (!loginLink || !loginWrapper) return;
+    
+    // Toggle dropdown on click
+    loginLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        loginWrapper.classList.toggle('active');
+    });
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!loginWrapper.contains(e.target)) {
+            loginWrapper.classList.remove('active');
+        }
+    });
+    
+    // Prevent dropdown from closing when clicking inside it
+    const loginDropdown = document.querySelector('.login-dropdown');
+    if (loginDropdown) {
+        loginDropdown.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+        
+        // Prevent closing when interacting with inputs, buttons, etc.
+        const interactiveElements = loginDropdown.querySelectorAll('input, button, a');
+        interactiveElements.forEach(element => {
+            element.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+        });
+    }
+}
+
+// ===== Main JavaScript for CareerViet =====
+
+// Open Login Modal
+function openLoginModal() {
+    document.getElementById('loginModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+// Close Login Modal
+function closeLoginModal() {
+    document.getElementById('loginModal').classList.remove('active');
+    document.body.style.overflow = 'auto';
+}
+
+// Toggle Password Visibility
+function togglePassword(inputId) {
+    const input = document.getElementById(inputId);
+    const button = event.currentTarget;
+    
+    if (input.type === 'password') {
+        input.type = 'text';
+        button.innerHTML = `
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                <line x1="1" y1="1" x2="23" y2="23"></line>
+            </svg>
+        `;
+    } else {
+        input.type = 'password';
+        button.innerHTML = `
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+        `;
+    }
+}
+
+// Handle Login
+function handleLogin() {
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
+    
+    // TODO: Implement actual login logic with backend
+    console.log('Login attempt:', { email, password });
+    
+    // Simulate login
+    alert(`Đăng nhập thành công!\nEmail: ${email}`);
+    closeLoginModal();
+}
+
+// Close modal when clicking outside
+window.addEventListener('click', function(e) {
+    const modal = document.getElementById('loginModal');
+    if (e.target === modal) {
+        closeLoginModal();
+    }
+});
+
+// Add event listener to login button in header
+document.addEventListener('DOMContentLoaded', function() {
+    const loginLink = document.querySelector('.login-link');
+    if (loginLink) {
+        loginLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            openLoginModal();
+        });
+    }
+});

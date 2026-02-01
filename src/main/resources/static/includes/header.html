@@ -1,0 +1,119 @@
+<!-- Header -->
+<header class="header">
+    <div class="container">
+        <div class="header-content">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="images/logo.png" alt="CareerViet Logo">
+                </a>
+            </div>
+            
+            <nav class="nav">
+                <a href="tim-viec-lam.html" class="nav-link">Tìm Việc Làm</a>
+                <div class="nav-dropdown">
+                    <a href="#" class="nav-link">
+                        CV Hay
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="dropdown-icon">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a href="#" class="dropdown-item" onclick="event.preventDefault(); alert('Tạo CV bằng AI');">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 20h9"></path>
+                                <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+                            </svg>
+                            Tạo CV bằng AI
+                        </a>
+                        <a href="cham-diem-cv.html" class="dropdown-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 11l3 3L22 4"></path>
+                                <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                            </svg>
+                            Chấm điểm CV
+                        </a>
+                    </div>
+                </div>
+                <a href="#" class="nav-link">VietnamSalary</a>
+                <a href="#" class="nav-link">CareerMap</a>
+                <a href="#" class="nav-link">Cẩm Nang</a>
+                <a href="#" class="nav-link">CareerStart</a>
+                <a href="#" class="nav-link">Tiện Ích</a>
+            </nav>
+
+            <div class="header-actions">
+                <a href="#" class="notification-link">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M15 6.66667C15 5.34058 14.4732 4.06881 13.5355 3.13113C12.5979 2.19345 11.3261 1.66667 10 1.66667C8.67392 1.66667 7.40215 2.19345 6.46447 3.13113C5.52678 4.06881 5 5.34058 5 6.66667C5 12.5 2.5 14.1667 2.5 14.1667H17.5C17.5 14.1667 15 12.5 15 6.66667Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M11.4417 17.5C11.2952 17.7526 11.0849 17.9622 10.8319 18.1079C10.5789 18.2537 10.292 18.3304 10 18.3304C9.70802 18.3304 9.42111 18.2537 9.16812 18.1079C8.91514 17.9622 8.70484 17.7526 8.55835 17.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>Thông Báo Việc Làm</span>
+                </a>
+                <div class="login-dropdown-wrapper">
+                    <a href="#" class="login-link">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M16.6667 17.5V15.8333C16.6667 14.9493 16.3155 14.1014 15.6904 13.4763C15.0652 12.8512 14.2174 12.5 13.3333 12.5H6.66667C5.78261 12.5 4.93477 12.8512 4.30964 13.4763C3.68452 14.1014 3.33333 14.9493 3.33333 15.8333V17.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M10 9.16667C11.8409 9.16667 13.3333 7.67428 13.3333 5.83333C13.3333 3.99238 11.8409 2.5 10 2.5C8.15905 2.5 6.66667 3.99238 6.66667 5.83333C6.66667 7.67428 8.15905 9.16667 10 9.16667Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span>Đăng nhập</span>
+                    </a>
+                    
+                    <!-- Login Dropdown -->
+                    <div id="loginDropdown" class="login-dropdown">
+                        <h2 class="login-title">Đăng nhập</h2>
+                        
+                        <!-- Social Login -->
+                        <div class="social-login">
+                            <button class="btn-social btn-google">
+                                <svg width="20" height="20" viewBox="0 0 24 24">
+                                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                                </svg>
+                                Google
+                            </button>
+                            <button class="btn-social btn-facebook">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="#1877F2">
+                                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                                </svg>
+                                Facebook
+                            </button>
+                        </div>
+                        
+                        <div class="divider">
+                            <span>Đăng nhập bằng</span>
+                        </div>
+                        
+                        <!-- Login Form -->
+                        <form class="login-form" onsubmit="event.preventDefault(); handleLogin();">
+                            <div class="form-group">
+                                <input type="email" id="loginEmail" placeholder="Email hoặc Tên đăng nhập" required>
+                            </div>
+                            
+                            <div class="form-group password-group">
+                                <input type="password" id="loginPassword" placeholder="Mật khẩu" required>
+                                <button type="button" class="btn-toggle-password" onclick="togglePassword('loginPassword')">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                        <circle cx="12" cy="12" r="3"></circle>
+                                    </svg>
+                                </button>
+                            </div>
+                            
+                            <a href="#" class="forgot-password">Quên mật khẩu?</a>
+                            
+                            <button type="submit" class="btn-login">Đăng nhập</button>
+                        </form>
+                        
+                        <div class="register-prompt">
+                            <p>Bạn chưa có tài khoản? Hãy</p>
+                            <button class="btn-register" onclick="alert('Chức năng đăng ký sẽ được triển khai sau')">Đăng ký</button>
+                        </div>
+                    </div>
+                </div>
+                <a href="employer-login.html" class="btn-employer">Dành cho nhà tuyển dụng</a>
+            </div>
+        </div>
+    </div>
+</header>

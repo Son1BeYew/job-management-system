@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Lý Đăng Tuyển - CareerViet</title>
+    <meta name="description" content="Quản lý tin tuyển dụng - Xem, chỉnh sửa, tạm dừng và gia hạn tin tuyển dụng">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/job-management.css">
+</head>
+<body>
+    <!-- Header Placeholder -->
+    <div id="header-employer-placeholder"></div>
+
+    <!-- Sub Navigation -->
+    <nav class="sub-nav">
+        <div class="container">
+            <div class="sub-nav-links">
+                <a href="dashboard.html" class="sub-nav-link">Dashboard</a>
+                <a href="quan-ly-dang-tuyen.html" class="sub-nav-link active">Quản Lý Đăng Tuyển</a>
+                <a href="quan-ly-ung-vien.html" class="sub-nav-link">Quản Lý Ứng Viên</a>
+                <a href="#" class="sub-nav-link">
+                    Chiến dịch tuyển dụng
+                    <span class="badge-new">NEW</span>
+                </a>
+                <a href="#" class="sub-nav-link">Đơn Hàng</a>
+                <a href="#" class="sub-nav-link">Tài Khoản</a>
+                <a href="#" class="sub-nav-link">CVRewards</a>
+                <a href="#" class="sub-nav-link">
+                    Xem thêm
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </a>
+            </div>
+            <div class="sub-nav-actions">
+                <a href="#" class="btn-sub-nav btn-search">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                    TÌM HỒ SƠ
+                </a>
+                <a href="quan-ly-dang-tuyen.html" class="btn-sub-nav btn-post" style="text-decoration: none;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                        <line x1="12" y1="18" x2="12" y2="12"></line>
+                        <line x1="9" y1="15" x2="15" y2="15"></line>
+                    </svg>
+                    ĐĂNG TUYỂN DỤNG
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Job Management Section -->
+    <section class="job-management">
+        <div class="container">
+            <div class="page-header">
+                <h1 class="page-title">Quản Lý Tuyển Dụng</h1>
+                <div class="page-actions">
+                    <button class="btn-create-job">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                        Tạo Phiếu Tuyển Dụng
+                    </button>
+                    <a href="#" class="link-guide">Hướng dẫn</a>
+                </div>
+            </div>
+
+            <!-- Filter Section -->
+            <div class="filter-section">
+                <div class="filter-row">
+                    <div class="filter-group">
+                        <label>Từ khóa</label>
+                        <input type="text" class="filter-input" placeholder="Nhập từ khóa">
+                    </div>
+                    <div class="filter-group">
+                        <label>Tìm theo ngày</label>
+                        <select class="filter-select">
+                            <option>Ngày đăng</option>
+                            <option>Ngày hết hạn</option>
+                            <option>Ngày tạo</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Từ</label>
+                        <input type="date" class="filter-input" placeholder="Chọn">
+                    </div>
+                    <div class="filter-group">
+                        <label>Đến</label>
+                        <input type="date" class="filter-input" placeholder="Chọn">
+                    </div>
+                    <div class="filter-group">
+                        <button class="btn-filter-search">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <path d="m21 21-4.35-4.35"></path>
+                            </svg>
+                            Tìm
+                        </button>
+                    </div>
+                </div>
+
+                <div class="filter-row">
+                    <div class="filter-group">
+                        <label>Việc làm đăng bởi</label>
+                        <select class="filter-select">
+                            <option>Sơn Sơn Nguyễn</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Status Tabs -->
+            <div class="status-tabs">
+                <button class="status-tab active">Việc Làm Đang Đăng</button>
+                <button class="status-tab">Việc Làm Chờ Đăng</button>
+                <button class="status-tab">Việc Làm Tạm Dừng Đăng</button>
+                <button class="status-tab">Việc Làm Hết Hạn</button>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-bar">
+                <div class="action-buttons">
+                    <span class="action-label">Hiển thị</span>
+                    <button class="btn-action">Chi tiết</button>
+                    <button class="btn-action">Nhân bản</button>
+                    <button class="btn-action">Tạm Dừng Đăng</button>
+                </div>
+                <div class="export-section">
+                    <button class="btn-export">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        Xuất file job
+                    </button>
+                    <span class="action-label">Hiển thị</span>
+                    <select class="select-display">
+                        <option>20</option>
+                        <option>50</option>
+                        <option>100</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Job Table -->
+            <div class="job-table-wrapper">
+                <table class="job-table">
+                    <thead>
+                        <tr>
+                            <th class="col-checkbox">
+                                <input type="checkbox" id="selectAll">
+                            </th>
+                            <th class="col-title">CHỨC DANH</th>
+                            <th class="col-date sortable">
+                                NGÀY ĐĂNG
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                </svg>
+                            </th>
+                            <th class="col-date sortable">
+                                HẾT HẠN
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                </svg>
+                            </th>
+                            <th class="col-views sortable">
+                                LƯỢT XEM
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                </svg>
+                            </th>
+                            <th class="col-applies sortable">
+                                LƯỢT NỘP
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                </svg>
+                            </th>
+                            <th class="col-cvs">CV GỢI Ý</th>
+                            <th class="col-actions">THAO TÁC</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="8" class="empty-state">
+                                <div class="empty-content">
+                                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                        <path d="M9 11l3 3L22 4"></path>
+                                        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                                    </svg>
+                                    <p>Không có vị trí nào trong thư mục này.</p>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Placeholder -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Zalo Chat -->
+    <a href="#" class="zalo-chat">
+        <img src="images/zalo-icon.png" alt="Zalo">
+    </a>
+
+    <script src="js/employer.js"></script>
+</body>
+</html>
