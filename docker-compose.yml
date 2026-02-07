@@ -1,0 +1,48 @@
+# Docker Compose file for MySQL Database
+# Port: 8085 (external) -> 3306 (internal MySQL)
+
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: qltd_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: qltd_db
+      MYSQL_USER: qltd_user
+      MYSQL_PASSWORD: qltd_pass123
+    ports:
+      - "8085:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./init-scripts:/docker-entrypoint-initdb.d
+    command: --default-authentication-plugin=mysql_native_password
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot123"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # phpMyAdmin - Web UI for MySQL
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: qltd_phpmyadmin
+    restart: unless-stopped
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: root123
+      UPLOAD_LIMIT: 50M
+    ports:
+      - "8086:80"
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+volumes:
+  mysql_data:
+    driver: local
+

@@ -46,12 +46,14 @@
                 <a href="#" class="notification-link">
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                         <path d="M15 6.66667C15 5.34058 14.4732 4.06881 13.5355 3.13113C12.5979 2.19345 11.3261 1.66667 10 1.66667C8.67392 1.66667 7.40215 2.19345 6.46447 3.13113C5.52678 4.06881 5 5.34058 5 6.66667C5 12.5 2.5 14.1667 2.5 14.1667H17.5C17.5 14.1667 15 12.5 15 6.66667Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M11.4417 17.5C11.2952 17.7526 11.0849 17.9622 10.8319 18.1079C10.5789 18.2537 10.292 18.3304 10 18.3304C9.70802 18.3304 9.42111 18.2537 9.16812 18.1079C8.91514 17.9622 8.70484 17.7526 8.55835 17.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M11.4417 17.5C11.2952 17.7526 11.0849 17.9622 10.8319 18.1079C10.5789 18.2537 10.292 18.3304 10 18.3304C9.70802 18.3304 9.42111 18.2537 9.16812 18.1079C8.91514 17.7526 8.70484 17.7526 8.55835 17.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                     <span>Thông Báo Việc Làm</span>
                 </a>
-                <div class="login-dropdown-wrapper">
-                    <a href="#" class="login-link">
+                
+                <!-- Login Dropdown (for guests) -->
+                <div class="login-dropdown-wrapper" id="loginWrapper">
+                    <a href="#" class="login-link" id="userLoginLink">
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                             <path d="M16.6667 17.5V15.8333C16.6667 14.9493 16.3155 14.1014 15.6904 13.4763C15.0652 12.8512 14.2174 12.5 13.3333 12.5H6.66667C5.78261 12.5 4.93477 12.8512 4.30964 13.4763C3.68452 14.1014 3.33333 14.9493 3.33333 15.8333V17.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                             <path d="M10 9.16667C11.8409 9.16667 13.3333 7.67428 13.3333 5.83333C13.3333 3.99238 11.8409 2.5 10 2.5C8.15905 2.5 6.66667 3.99238 6.66667 5.83333C6.66667 7.67428 8.15905 9.16667 10 9.16667Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -87,13 +89,15 @@
                         </div>
                         
                         <!-- Login Form -->
-                        <form class="login-form" onsubmit="event.preventDefault(); handleLogin();">
+                        <form class="login-form" id="headerLoginForm">
+                            <div id="loginError" style="background: #fee2e2; color: #dc2626; padding: 10px; border-radius: 6px; font-size: 13px; margin-bottom: 12px; display: none;"></div>
+                            
                             <div class="form-group">
-                                <input type="email" id="loginEmail" placeholder="Email hoặc Tên đăng nhập" required>
+                                <input type="email" id="loginEmail" name="email" placeholder="Email hoặc Tên đăng nhập" required>
                             </div>
                             
                             <div class="form-group password-group">
-                                <input type="password" id="loginPassword" placeholder="Mật khẩu" required>
+                                <input type="password" id="loginPassword" name="password" placeholder="Mật khẩu" required>
                                 <button type="button" class="btn-toggle-password" onclick="togglePassword('loginPassword')">
                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                         <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
@@ -104,17 +108,202 @@
                             
                             <a href="#" class="forgot-password">Quên mật khẩu?</a>
                             
-                            <button type="submit" class="btn-login">Đăng nhập</button>
+                            <button type="submit" class="btn-login" id="loginSubmitBtn">Đăng nhập</button>
                         </form>
                         
                         <div class="register-prompt">
                             <p>Bạn chưa có tài khoản? Hãy</p>
-                            <button class="btn-register" onclick="alert('Chức năng đăng ký sẽ được triển khai sau')">Đăng ký</button>
+                            <a href="candidate-register.html" class="btn-register" style="text-decoration: none;">Đăng ký</a>
                         </div>
                     </div>
                 </div>
-                <a href="employer-login.html" class="btn-employer">Dành cho nhà tuyển dụng</a>
+
+                <!-- User Menu (for logged-in users) -->
+                <div class="user-menu-wrapper" id="userMenuWrapper" style="display: none; position: relative;">
+                    <a href="#" class="login-link" id="userMenuLink" onclick="toggleUserDropdown(event)">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M16.6667 17.5V15.8333C16.6667 14.9493 16.3155 14.1014 15.6904 13.4763C15.0652 12.8512 14.2174 12.5 13.3333 12.5H6.66667C5.78261 12.5 4.93477 12.8512 4.30964 13.4763C3.68452 14.1014 3.33333 14.9493 3.33333 15.8333V17.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M10 9.16667C11.8409 9.16667 13.3333 7.67428 13.3333 5.83333C13.3333 3.99238 11.8409 2.5 10 2.5C8.15905 2.5 6.66667 3.99238 6.66667 5.83333C6.66667 7.67428 8.15905 9.16667 10 9.16667Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span id="userDisplayName">Xin chào</span>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left: 4px;">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </a>
+                    
+                    <!-- User Dropdown -->
+                    <div id="userDropdown" class="login-dropdown user-dropdown" style="min-width: 220px; display: none;">
+                        <div style="padding: 16px; border-bottom: 1px solid #eee;">
+                            <p style="font-weight: 600; color: #333; margin: 0;" id="userFullName">Người dùng</p>
+                            <p style="font-size: 12px; color: #666; margin: 4px 0 0 0;" id="userEmail">email@example.com</p>
+                        </div>
+                        <a href="/profile.html" class="dropdown-menu-item" style="display: flex; align-items: center; gap: 10px; padding: 12px 16px; color: #333; text-decoration: none;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            Thông tin tài khoản
+                        </a>
+                        <a href="/my-applications.html" class="dropdown-menu-item" style="display: flex; align-items: center; gap: 10px; padding: 12px 16px; color: #333; text-decoration: none; border-bottom: 1px solid #eee;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                            </svg>
+                            Việc làm đã ứng tuyển
+                        </a>
+                        <a href="/auth/logout" class="dropdown-menu-item" style="display: flex; align-items: center; gap: 10px; padding: 12px 16px; color: #e53e3e; text-decoration: none;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                                <polyline points="16 17 21 12 16 7"></polyline>
+                                <line x1="21" y1="12" x2="9" y2="12"></line>
+                            </svg>
+                            Đăng xuất
+                        </a>
+                    </div>
+                </div>
+
+                <a href="employer-login.html" class="btn-employer" id="btnEmployer">Dành cho nhà tuyển dụng</a>
             </div>
         </div>
     </div>
 </header>
+
+<script>
+(function() {
+    // Check if user is logged in
+    fetch('/api/user/me', { credentials: 'include' })
+        .then(response => response.json())
+        .then(data => {
+            const loginWrapper = document.getElementById('loginWrapper');
+            const userMenuWrapper = document.getElementById('userMenuWrapper');
+            
+            if (data.authenticated && data.displayName) {
+                // User is logged in - show user menu, hide login
+                if (loginWrapper) loginWrapper.style.display = 'none';
+                if (userMenuWrapper) {
+                    userMenuWrapper.style.display = 'block';
+                    document.getElementById('userDisplayName').textContent = 'Xin chào, ' + data.displayName;
+                    document.getElementById('userFullName').textContent = data.displayName;
+                    document.getElementById('userEmail').textContent = data.email;
+                }
+                
+                // Update employer button based on role
+                const btnEmployer = document.getElementById('btnEmployer');
+                if (btnEmployer) {
+                    if (data.role === 'ROLE_EMPLOYER') {
+                        btnEmployer.href = '/dashboard.html';
+                        btnEmployer.textContent = 'Quản lý tuyển dụng';
+                    } else if (data.role === 'ROLE_ADMIN') {
+                        btnEmployer.href = '/admin/dashboard.html';
+                        btnEmployer.textContent = 'Quản trị hệ thống';
+                    }
+                }
+            } else {
+                // User not logged in - show login, hide user menu
+                if (loginWrapper) loginWrapper.style.display = 'block';
+                if (userMenuWrapper) userMenuWrapper.style.display = 'none';
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching user:', error);
+        });
+
+    // Handle login form
+    const loginForm = document.getElementById('headerLoginForm');
+    if (loginForm) {
+        loginForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const errorEl = document.getElementById('loginError');
+            const submitBtn = document.getElementById('loginSubmitBtn');
+            
+            // Disable button during submission
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Đang đăng nhập...';
+            
+            try {
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Redirect based on role
+                    if (data.role === 'ROLE_ADMIN') {
+                        window.location.href = '/admin/dashboard.html';
+                    } else if (data.role === 'ROLE_EMPLOYER') {
+                        window.location.href = '/dashboard.html';
+                    } else {
+                        // Reload current page to show user menu
+                        window.location.reload();
+                    }
+                } else {
+                    errorEl.textContent = data.message;
+                    errorEl.style.display = 'block';
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Đăng nhập';
+                }
+            } catch (error) {
+                errorEl.textContent = 'Có lỗi xảy ra. Vui lòng thử lại.';
+                errorEl.style.display = 'block';
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Đăng nhập';
+            }
+        });
+    }
+})();
+
+function togglePassword(inputId) {
+    const input = document.getElementById(inputId);
+    input.type = input.type === 'password' ? 'text' : 'password';
+}
+
+// Toggle user dropdown menu
+function toggleUserDropdown(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    const dropdown = document.getElementById('userDropdown');
+    if (dropdown) {
+        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+    }
+}
+
+// Close dropdown when clicking outside
+document.addEventListener('click', function(e) {
+    const userMenuWrapper = document.getElementById('userMenuWrapper');
+    const dropdown = document.getElementById('userDropdown');
+    if (userMenuWrapper && dropdown && !userMenuWrapper.contains(e.target)) {
+        dropdown.style.display = 'none';
+    }
+});
+</script>
+
+<style>
+/* User menu dropdown styles */
+.user-menu-wrapper {
+    position: relative;
+}
+
+.user-menu-wrapper .login-dropdown {
+    display: none;
+}
+
+.user-menu-wrapper .login-dropdown.show,
+.user-menu-wrapper.active .login-dropdown {
+    display: block !important;
+}
+
+.dropdown-menu-item:hover {
+    background: #f5f5f5;
+}
+</style>
+
+

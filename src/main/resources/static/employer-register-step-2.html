@@ -118,97 +118,86 @@
                     <h2 class="step-title">BƯỚC 2 : THÔNG TIN CÔNG TY</h2>
                     <p class="step-desc">Thông tin doanh nghiệp của Quý Công ty trên CareerViet</p>
 
-                    <form action="dashboard.html" method="GET">
+                    <form id="registerStep2Form">
                         <div class="form-box">
                             <div class="form-label-blue">TÊN CÔNG TY</div>
-                            <input type="text" class="form-input-field" placeholder="Vui lòng nhập thông tin" required style="background: #f4f6f9;">
+                            <input type="text" name="companyName" class="form-input-field" placeholder="Vui lòng nhập thông tin" required style="background: #f4f6f9;">
                         </div>
 
                         <div class="form-box">
                             <div class="form-label-blue">LOẠI HÌNH HOẠT ĐỘNG</div>
-                            <select class="form-select-field" required>
+                            <select name="businessType" class="form-select-field" required>
                                 <option value="">Vui lòng chọn</option>
-                                <option>Công ty Cổ phần</option>
-                                <option>Công ty TNHH</option>
-                                <option>Công ty Nhà nước</option>
-                                <option>Công ty Liên doanh</option>
-                                <option>Công ty 100% vốn nước ngoài</option>
+                                <option value="Công ty Cổ phần">Công ty Cổ phần</option>
+                                <option value="Công ty TNHH">Công ty TNHH</option>
+                                <option value="Công ty Nhà nước">Công ty Nhà nước</option>
+                                <option value="Công ty Liên doanh">Công ty Liên doanh</option>
+                                <option value="Công ty 100% vốn nước ngoài">Công ty 100% vốn nước ngoài</option>
                             </select>
                         </div>
 
                         <div class="form-box">
                             <div class="form-label-blue">CHỌN SỐ NHÂN VIÊN</div>
-                            <select class="form-select-field" required>
+                            <select name="employeeCount" class="form-select-field" required>
                                 <option value="">Chọn số nhân viên</option>
-                                <option>Ít hơn 10</option>
-                                <option>10 - 50</option>
-                                <option>50 - 100</option>
-                                <option>100 - 500</option>
-                                <option>Trên 500</option>
+                                <option value="Ít hơn 10">Ít hơn 10</option>
+                                <option value="10 - 50">10 - 50</option>
+                                <option value="50 - 100">50 - 100</option>
+                                <option value="100 - 500">100 - 500</option>
+                                <option value="Trên 500">Trên 500</option>
                             </select>
                         </div>
 
                         <div class="form-box">
                             <div class="form-label-blue">QUỐC GIA</div>
-                            <select class="form-select-field" required>
-                                <option selected>Việt Nam</option>
-                                <option>Singapore</option>
-                                <option>Thái Lan</option>
-                                <option>Mỹ</option>
+                            <select name="country" class="form-select-field" required>
+                                <option value="Việt Nam" selected>Việt Nam</option>
+                                <option value="Singapore">Singapore</option>
+                                <option value="Thái Lan">Thái Lan</option>
+                                <option value="Mỹ">Mỹ</option>
                             </select>
                         </div>
 
                         <div class="form-box">
                             <div class="form-label-blue">TỈNH / TP</div>
-                            <select class="form-select-field" required>
+                            <select name="province" class="form-select-field" required>
                                 <option value="">Chọn Tỉnh/ TP</option>
-                                <option>TP. Hồ Chí Minh</option>
-                                <option>Hà Nội</option>
-                                <option>Đà Nẵng</option>
+                                <option value="TP. Hồ Chí Minh">TP. Hồ Chí Minh</option>
+                                <option value="Hà Nội">Hà Nội</option>
+                                <option value="Đà Nẵng">Đà Nẵng</option>
+                                <option value="Cần Thơ">Cần Thơ</option>
+                                <option value="Hải Phòng">Hải Phòng</option>
+                                <option value="Bình Dương">Bình Dương</option>
+                                <option value="Đồng Nai">Đồng Nai</option>
                             </select>
                         </div>
 
                         <div class="form-box">
                             <div class="form-label-blue">ĐỊA CHỈ CÔNG TY</div>
-                            <input type="text" class="form-input-field" placeholder="Vui lòng nhập thông tin" required style="background: #f4f6f9;">
+                            <input type="text" name="address" class="form-input-field" placeholder="Vui lòng nhập thông tin" required style="background: #f4f6f9;">
                         </div>
 
                         <div class="form-box" style="align-items: stretch;">
                             <div class="form-label-blue" style="min-height: 100px;">SƠ LƯỢC VỀ CÔNG TY</div>
-                            <textarea class="form-textarea" placeholder="Nhập tóm tắt giới thiệu công ty..."></textarea>
+                            <textarea name="description" class="form-textarea" placeholder="Nhập tóm tắt giới thiệu công ty..."></textarea>
                         </div>
 
                         <div class="form-box">
                             <div class="form-label-blue">TÊN NGƯỜI LIÊN HỆ</div>
-                            <input type="text" class="form-input-field" placeholder="Vui lòng nhập thông tin" required style="background: #f4f6f9;">
+                            <input type="text" name="contactName" class="form-input-field" placeholder="Vui lòng nhập thông tin" required style="background: #f4f6f9;">
                         </div>
 
                         <div class="form-box">
                             <div class="form-label-blue">ĐIỆN THOẠI</div>
-                            <input type="tel" class="form-input-field" placeholder="Vui lòng nhập thông tin" required style="background: #f4f6f9;">
+                            <input type="tel" name="contactPhone" class="form-input-field" placeholder="Vui lòng nhập thông tin" required style="background: #f4f6f9;">
                         </div>
 
                         <div class="form-box">
                             <div class="form-label-blue">MÃ SỐ THUẾ</div>
-                            <input type="text" class="form-input-field" placeholder="Vui lòng nhập mã số thuế" style="background: #f4f6f9;">
+                            <input type="text" name="taxCode" class="form-input-field" placeholder="Vui lòng nhập mã số thuế" style="background: #f4f6f9;">
                         </div>
 
-                        <div class="form-box" style="margin-bottom: 5px;">
-                            <div class="form-label-blue">MÃ XÁC NHẬN</div>
-                            <input type="text" class="form-input-field" required style="background: #f4f6f9;">
-                        </div>
-                        
-                        <div class="captcha-box">
-                            <div class="captcha-img-wrapper">
-                                <div class="captcha-code">40748246</div>
-                                <button type="button" class="btn-refresh-captcha">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M23 4v6h-6"></path>
-                                        <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
+                        <div id="errorMessage" style="color: #e53e3e; font-size: 13px; margin-bottom: 15px; display: none;"></div>
 
                         <div class="form-footer-between">
                             <button type="button" class="btn-back" onclick="history.back()">QUAY LẠI</button>
@@ -233,5 +222,60 @@
     </a>
 
     <script src="js/employer.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('registerStep2Form');
+            const errorMessage = document.getElementById('errorMessage');
+
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const formData = {
+                    companyName: form.querySelector('input[name="companyName"]').value,
+                    businessType: form.querySelector('select[name="businessType"]').value,
+                    employeeCount: form.querySelector('select[name="employeeCount"]').value,
+                    country: form.querySelector('select[name="country"]').value,
+                    province: form.querySelector('select[name="province"]').value,
+                    address: form.querySelector('input[name="address"]').value,
+                    description: form.querySelector('textarea[name="description"]').value,
+                    contactName: form.querySelector('input[name="contactName"]').value,
+                    contactPhone: form.querySelector('input[name="contactPhone"]').value,
+                    taxCode: form.querySelector('input[name="taxCode"]').value
+                };
+
+                try {
+                    const response = await fetch('/api/auth/register/employer/step2', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(formData)
+                    });
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        alert('Đăng ký thành công! Vui lòng đăng nhập.');
+                        window.location.href = data.redirectUrl || '/employer-login.html';
+                    } else {
+                        showError(data.message);
+                        if (data.redirectUrl) {
+                            setTimeout(() => {
+                                window.location.href = data.redirectUrl;
+                            }, 2000);
+                        }
+                    }
+                } catch (error) {
+                    showError('Có lỗi xảy ra. Vui lòng thử lại.');
+                }
+            });
+
+            function showError(message) {
+                errorMessage.textContent = message;
+                errorMessage.style.display = 'block';
+            }
+        });
+    </script>
 </body>
 </html>
+

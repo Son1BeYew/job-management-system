@@ -1,0 +1,100 @@
+package Nhom08.Project.config;
+
+import Nhom08.Project.service.CustomUserDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+
+@Configuration
+@EnableWebSecurity
+@EnableMethodSecurity
+public class SecurityConfig {
+
+    @Autowired
+    private CustomUserDetailsService userDetailsService;
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
+        AuthenticationManagerBuilder authBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
+        authBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+        return authBuilder.build();
+    }
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+            .csrf(csrf -> csrf.disable()) // Disable for development, enable in production
+            .authorizeHttpRequests(auth -> auth
+                // Public static resources
+                .requestMatchers("/", "/index.html").permitAll()
+                .requestMatchers("/css/**", "/js/**", "/images/**", "/fonts/**").permitAll()
+                .requestMatchers("/includes/**").permitAll() // Header, footer includes
+                .requestMatchers("/error").permitAll()
+                
+                // Public pages (job listing, CV, etc.)
+                .requestMatchers("/*.html").permitAll() // All root-level HTML pages
+                .requestMatchers("/tim-viec-lam.html", "/nha-tuyen-dung.html").permitAll()
+                .requestMatchers("/cham-diem-cv.html", "/tao-cv-ai.html", "/cv-editor.html").permitAll()
+                
+                // Authentication pages
+                .requestMatchers("/auth/**", "/login", "/register/**").permitAll()
+                .requestMatchers("/employer-login.html", "/employer-register.html", "/employer-register-step-2.html").permitAll()
+                .requestMatchers("/candidate-login.html", "/candidate-register.html").permitAll()
+                
+                // API endpoints for registration and user info
+                .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers("/api/user/**").permitAll()
+                
+                // Admin pages and API - require ADMIN role
+                .requestMatchers("/admin/**").hasRole("ADMIN")
+                .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                
+                // Employer pages - require EMPLOYER role  
+                .requestMatchers("/employer/**").hasRole("EMPLOYER")
+                .requestMatchers("/dashboard.html", "/quan-ly-dang-tuyen.html", "/quan-ly-ung-vien.html").hasRole("EMPLOYER")
+                
+                // User/Candidate pages - require USER role
+                .requestMatchers("/profile/**", "/my-applications/**").hasRole("USER")
+                
+                // All other requests - permit for now (adjust as needed)
+                .anyRequest().permitAll()
+            )
+            .sessionManagement(session -> session
+                .sessionCreationPolicy(org.springframework.security.config.http.SessionCreationPolicy.IF_REQUIRED)
+            )
+            .formLogin(form -> form
+                .loginPage("/login")
+                .loginProcessingUrl("/auth/login")
+                .usernameParameter("email")
+                .passwordParameter("password")
+                .defaultSuccessUrl("/", true)
+                .failureUrl("/login?error=true")
+                .permitAll()
+            )
+            .logout(logout -> logout
+                .logoutUrl("/auth/logout")
+                .logoutSuccessUrl("/login?logout=true")
+                .deleteCookies("JSESSIONID")
+                .permitAll()
+            )
+            .exceptionHandling(ex -> ex
+                .accessDeniedPage("/403")
+            );
+
+        return http.build();
+    }
+}
+

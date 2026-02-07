@@ -1,0 +1,85 @@
+package Nhom08.Project.controller;
+
+import Nhom08.Project.entity.Employer;
+import Nhom08.Project.entity.User;
+import Nhom08.Project.repository.EmployerRepository;
+import Nhom08.Project.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+
+@RestController
+@RequestMapping("/api/user")
+public class UserController {
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private EmployerRepository employerRepository;
+
+    /**
+     * Get current logged-in user info
+     */
+    @GetMapping("/me")
+    public ResponseEntity<Map<String, Object>> getCurrentUser() {
+        Map<String, Object> response = new HashMap<>();
+        
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        
+        if (auth == null || !auth.isAuthenticated() || "anonymousUser".equals(auth.getPrincipal())) {
+            response.put("authenticated", false);
+            return ResponseEntity.ok(response);
+        }
+
+        String email = auth.getName();
+        Optional<User> userOpt = userRepository.findByEmail(email);
+
+        if (userOpt.isEmpty()) {
+            response.put("authenticated", false);
+            return ResponseEntity.ok(response);
+        }
+
+        User user = userOpt.get();
+        response.put("authenticated", true);
+        response.put("id", user.getId());
+        response.put("email", user.getEmail());
+        response.put("fullName", user.getFullName());
+        response.put("phone", user.getPhone());
+        response.put("role", user.getRole().getName());
+
+        // If employer, include company info
+        if (user.isEmployer()) {
+            Optional<Employer> employerOpt = employerRepository.findByUserId(user.getId());
+            if (employerOpt.isPresent()) {
+                Employer employer = employerOpt.get();
+                Map<String, Object> employerInfo = new HashMap<>();
+                employerInfo.put("id", employer.getId());
+                employerInfo.put("companyName", employer.getCompanyName());
+                employerInfo.put("contactName", employer.getContactName());
+                employerInfo.put("contactPhone", employer.getContactPhone());
+                employerInfo.put("province", employer.getProvince());
+                response.put("employer", employerInfo);
+                
+                // Use contact name for display if fullName is null
+                if (user.getFullName() == null || user.getFullName().isEmpty()) {
+                    response.put("displayName", employer.getContactName());
+                } else {
+                    response.put("displayName", user.getFullName());
+                }
+            }
+        } else {
+            response.put("displayName", user.getFullName() != null ? user.getFullName() : user.getEmail());
+        }
+
+        return ResponseEntity.ok(response);
+    }
+}

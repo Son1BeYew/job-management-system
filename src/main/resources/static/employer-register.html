@@ -76,28 +76,31 @@
                     <h2 class="step-title">BƯỚC 1 : THÔNG TIN ĐĂNG NHẬP</h2>
                     <p class="step-desc">Quý khách sử dụng thông tin tài khoản này để đăng nhập vào CareerViet.vn</p>
 
-                    <form action="employer-register-step-2.html" method="GET">
+                    <form id="registerStep1Form">
                         <div class="form-box">
                             <div class="form-label-blue">EMAIL ĐĂNG NHẬP</div>
-                            <input type="email" class="form-input-field" placeholder="Vui lòng nhập thông tin" required>
+                            <input type="email" name="email" class="form-input-field" placeholder="Vui lòng nhập thông tin" required>
                         </div>
 
                         <div class="form-box">
                             <div class="form-label-blue">XÁC NHẬN EMAIL</div>
-                            <input type="email" class="form-input-field" placeholder="Vui lòng nhập thông tin" required>
+                            <input type="email" name="confirmEmail" class="form-input-field" placeholder="Vui lòng nhập thông tin" required>
                         </div>
                         
-                        <a href="#" class="link-check-email">Kiểm tra sự tồn tại của email</a>
+                        <a href="#" class="link-check-email" id="checkEmailBtn">Kiểm tra sự tồn tại của email</a>
+                        <div id="emailStatus" style="font-size: 12px; margin-bottom: 15px;"></div>
 
                         <div class="form-box">
                             <div class="form-label-blue">MẬT KHẨU</div>
-                            <input type="password" class="form-input-field" required>
+                            <input type="password" name="password" class="form-input-field" placeholder="Ít nhất 6 ký tự" required minlength="6">
                         </div>
 
                         <div class="form-box">
                             <div class="form-label-blue">XÁC NHẬN MẬT KHẨU</div>
-                            <input type="password" class="form-input-field" required>
+                            <input type="password" name="confirmPassword" class="form-input-field" placeholder="Nhập lại mật khẩu" required>
                         </div>
+
+                        <div id="errorMessage" style="color: #e53e3e; font-size: 13px; margin-bottom: 15px; display: none;"></div>
 
                         <div class="form-footer">
                             <button type="submit" class="btn-submit-teal" style="background-color: #00d1b2;">TIẾP TỤC</button>
@@ -144,5 +147,88 @@
     </a>
 
     <script src="js/employer.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('registerStep1Form');
+            const checkEmailBtn = document.getElementById('checkEmailBtn');
+            const emailStatus = document.getElementById('emailStatus');
+            const errorMessage = document.getElementById('errorMessage');
+
+            // Check email existence
+            checkEmailBtn.addEventListener('click', async function(e) {
+                e.preventDefault();
+                const email = form.querySelector('input[name="email"]').value;
+                if (!email) {
+                    emailStatus.innerHTML = '<span style="color: #e53e3e;">Vui lòng nhập email</span>';
+                    return;
+                }
+
+                try {
+                    const response = await fetch(`/api/auth/check-email?email=${encodeURIComponent(email)}`);
+                    const data = await response.json();
+                    
+                    if (data.exists) {
+                        emailStatus.innerHTML = '<span style="color: #e53e3e;">❌ ' + data.message + '</span>';
+                    } else {
+                        emailStatus.innerHTML = '<span style="color: #38a169;">✅ ' + data.message + '</span>';
+                    }
+                } catch (error) {
+                    emailStatus.innerHTML = '<span style="color: #e53e3e;">Lỗi kiểm tra email</span>';
+                }
+            });
+
+            // Form submission
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const formData = {
+                    email: form.querySelector('input[name="email"]').value,
+                    confirmEmail: form.querySelector('input[name="confirmEmail"]').value,
+                    password: form.querySelector('input[name="password"]').value,
+                    confirmPassword: form.querySelector('input[name="confirmPassword"]').value
+                };
+
+                // Client-side validation
+                if (formData.email !== formData.confirmEmail) {
+                    showError('Email xác nhận không khớp');
+                    return;
+                }
+                if (formData.password !== formData.confirmPassword) {
+                    showError('Mật khẩu xác nhận không khớp');
+                    return;
+                }
+                if (formData.password.length < 6) {
+                    showError('Mật khẩu phải có ít nhất 6 ký tự');
+                    return;
+                }
+
+                try {
+                    const response = await fetch('/api/auth/register/employer/step1', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(formData)
+                    });
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        window.location.href = data.redirectUrl || '/employer-register-step-2.html';
+                    } else {
+                        showError(data.message);
+                    }
+                } catch (error) {
+                    showError('Có lỗi xảy ra. Vui lòng thử lại.');
+                }
+            });
+
+            function showError(message) {
+                errorMessage.textContent = message;
+                errorMessage.style.display = 'block';
+            }
+        });
+    </script>
 </body>
 </html>
+

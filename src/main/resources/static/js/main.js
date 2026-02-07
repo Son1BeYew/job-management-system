@@ -3,10 +3,23 @@
 // ===== Load Header and Footer =====
 async function loadHTML(elementId, filePath) {
     try {
-        const response = await fetch(filePath);
+        const response = await fetch(filePath, { credentials: 'include' });
         if (!response.ok) throw new Error(`Failed to load ${filePath}`);
         const html = await response.text();
-        document.getElementById(elementId).innerHTML = html;
+        const container = document.getElementById(elementId);
+        container.innerHTML = html;
+        
+        // Execute any script tags in the loaded HTML
+        const scripts = container.querySelectorAll('script');
+        scripts.forEach(oldScript => {
+            const newScript = document.createElement('script');
+            if (oldScript.src) {
+                newScript.src = oldScript.src;
+            } else {
+                newScript.textContent = oldScript.textContent;
+            }
+            oldScript.parentNode.replaceChild(newScript, oldScript);
+        });
     } catch (error) {
         console.error('Error loading HTML:', error);
     }
