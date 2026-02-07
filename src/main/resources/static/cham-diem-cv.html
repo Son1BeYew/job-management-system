@@ -3,198 +3,264 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chấm Điểm CV bằng AI - CareerViet</title>
-    <meta name="description" content="Sử dụng trí tuệ nhân tạo để phân tích và đánh giá CV của bạn. Nhận điểm số và gợi ý cải thiện ngay lập tức.">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>Chấm Điểm CV AI | CareerViet</title>
+    <meta name="description" content="Tối ưu hóa CV và khám phá công việc phù hợp với AI.">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/cham-diem-cv.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body class="cv-scoring-page">
+<body>
     <!-- Header Placeholder -->
     <div id="header-placeholder"></div>
 
-    <main>
-        <!-- Hero Section -->
-        <section class="scoring-hero">
-            <div class="container">
-                <h1>CHẤM ĐIỂM HỒ SƠ BẰNG AI</h1>
-                <p>Nâng cấp CV của bạn lên một tầm cao mới. Công nghệ AI của CareerViet sẽ giúp bạn tối ưu hóa hồ sơ để chinh phục những nhà tuyển dụng khó tính nhất.</p>
-            </div>
-        </section>
+    <main class="cv-scorer-container">
+        <div class="container-wrapper">
+            <div class="main-layout">
+                <!-- Left Sidebar -->
+                <aside class="sidebar">
+                    <div class="upload-card">
+                        <div class="card-title">
+                            <i data-lucide="file-text"></i>
+                            <span>Chấm điểm CV</span>
+                        </div>
+                        
+                        <div class="drop-zone" onclick="document.getElementById('fileInput').click()">
+                            <div class="drop-zone-icon">
+                                <i data-lucide="upload-cloud"></i>
+                            </div>
+                            <p>Tải CV lên ngay</p>
+                            <span>PDF, DOCX (Tối đa 5MB)</span>
+                            <input type="file" id="fileInput" style="display: none" accept=".pdf,.docx">
+                            <button class="btn-browse">Chọn tệp</button>
+                        </div>
 
-        <!-- Upload & Analysis Area -->
-        <div class="container">
-            <div class="upload-container">
-                <!-- Step 1: Upload (Visible by default) -->
-                <div id="uploadStep">
-                    <div class="upload-area" onclick="simulateUpload()">
-                        <div class="upload-icon">
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                                <polyline points="17 8 12 3 7 8"></polyline>
-                                <line x1="12" y1="3" x2="12" y2="15"></line>
+                        <div class="form-group">
+                            <label>VỊ TRÍ MỤC TIÊU</label>
+                            <input type="text" class="input-field" placeholder="Ví dụ: Quản lý sản phẩm">
+                        </div>
+
+                        <button class="btn-analyze">Phân tích lại</button>
+                    </div>
+
+                    <div class="pro-tip-card">
+                        <h3>Mẹo hay</h3>
+                        <p>Thêm các kết quả định lượng (VD: "Tăng doanh số 20%") có thể giúp tăng điểm của bạn lên tới 15 điểm.</p>
+                        <button class="btn-learn">Tìm hiểu thêm</button>
+                    </div>
+                </aside>
+
+                <!-- Center Content Area -->
+                <div class="dashboard-content">
+                    <!-- Score Overview Card -->
+                    <div class="score-overview">
+                        <div class="score-gauge-container">
+                            <svg class="score-gauge" viewBox="0 0 160 160">
+                                <circle class="gauge-bg" cx="80" cy="80" r="70"></circle>
+                                <circle class="gauge-progress" cx="80" cy="80" r="70"></circle>
                             </svg>
+                            <div class="score-text">
+                                <span class="score-number">80</span>
+                                <span class="score-label">ĐIỂM</span>
+                            </div>
                         </div>
-                        <h3>Kéo thả hoặc chọn tệp CV của bạn</h3>
-                        <p>Hỗ trợ định dạng .PDF, .DOC, .DOCX (Dung lượng tối đa 5MB)</p>
-                        <button class="btn-upload">CHỌN TỆP TỪ MÁY TÍNH</button>
-                    </div>
-                </div>
-
-                <!-- Step 2: Scanning (Hidden by default) -->
-                <div id="scanningStep" class="analysis-status">
-                    <div class="scanning-loader"></div>
-                    <h2>AI ĐANG PHÂN TÍCH CV CỦA BẠN...</h2>
-                    <p>Vui lòng đợi trong giây lát, chúng tôi đang đánh giá các tiêu chí chuyên môn và bố cục.</p>
-                </div>
-
-                <!-- Step 3: Results (Hidden by default) -->
-                <div id="resultsStep" class="scoring-results">
-                    <div class="results-split">
-                        <!-- Left Panel: Score & Preview -->
-                        <div class="results-left">
-                            <div class="score-header">
-                                <div class="score-circle">
-                                    <span class="score-value">85</span>
-                                    <span class="score-label">ĐIỂM AI</span>
-                                </div>
-                                <h3 class="score-status">CHỈ SỐ: RẤT TỐT</h3>
-                                <div class="score-badge">Ứng viên tiềm năng</div>
-                            </div>
+                        
+                        <div class="feedback-header">
+                            <span class="badge-profile">
+                                <i data-lucide="trending-up" style="width: 14px;"></i>
+                                HỒ SƠ CHUYÊN NGHIỆP
+                            </span>
+                            <h2>Làm tốt lắm, Son1!</h2>
+                            <p>CV của bạn tốt hơn 85% ứng viên trong cùng lĩnh vực.</p>
                             
-                            <!-- CV Mockup Preview -->
-                            <div class="cv-mockup">
-                                <p style="font-size: 11px; font-weight: 700; color: #99aab5; margin-bottom: 12px; text-transform: uppercase;">Xem trước tài liệu của bạn</p>
-                                <div class="cv-mockup-header"></div>
-                                <div class="cv-mockup-line medium"></div>
-                                <div class="cv-mockup-line"></div>
-                                <div class="cv-mockup-line short"></div>
-                                <div style="margin-top: 15px; display: flex; gap: 8px;">
-                                    <div style="width: 20px; height: 20px; border-radius: 50%; background: #e0e6ed;"></div>
-                                    <div style="flex: 1; height: 8px; background: #e0e6ed; border-radius: 4px; margin-top: 6px;"></div>
+                            <div class="stats-grid">
+                                <div class="stat-item">
+                                    <span class="stat-value">12</span>
+                                    <span class="stat-label">TỪ KHÓA</span>
                                 </div>
-                            </div>
-                            
-                            <p style="margin-top: 25px; font-size: 13px; color: #777; line-height: 1.5;">
-                                AI đã phân tích thành công 48 tiêu chí kỹ thuật trong CV của bạn.
-                            </p>
-                        </div>
-
-                        <!-- Right Panel: Detailed Analysis -->
-                        <div class="results-right">
-                            <!-- Analysis Section: Missing Info -->
-                            <div class="analysis-card missing">
-                                <h4>
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <circle cx="12" cy="12" r="10"></circle>
-                                        <line x1="12" y1="8" x2="12" y2="12"></line>
-                                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
-                                    </svg>
-                                    THÔNG TIN CẦN BỔ SUNG
-                                </h4>
-                                <div class="analysis-list">
-                                    <div class="analysis-item">
-                                        <div class="item-icon">✕</div>
-                                        <p><strong>Chứng chỉ chuyên môn:</strong> Thiếu các chứng chỉ ngành nghề cụ thể (ví dụ: Google Analytics, AWS, CPA...) để làm nổi bật hồ sơ.</p>
-                                    </div>
-                                    <div class="analysis-item">
-                                        <div class="item-icon">✕</div>
-                                        <p><strong>Mạng xã hội nghề nghiệp:</strong> CV chưa chứa liên kết đến LinkedIn hoặc Portfolio cá nhân.</p>
-                                    </div>
+                                <div class="stat-item">
+                                    <span class="stat-value">8+ Năm</span>
+                                    <span class="stat-label">KINH NGHIỆM</span>
                                 </div>
-                            </div>
-
-                            <!-- Analysis Section: Improvements -->
-                            <div class="analysis-card improve">
-                                <h4>
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
-                                    </svg>
-                                    GỢI Ý CẢI THIỆN (MAX PRO)
-                                </h4>
-                                <div class="analysis-list">
-                                    <div class="analysis-item">
-                                        <div class="item-icon">!</div>
-                                        <p><strong>Từ khóa ATS:</strong> Tăng cường các từ khóa chuyên môn như "Quản trị dự án", "Phân tích dữ liệu" để vượt qua bộ lọc tự động.</p>
-                                    </div>
-                                    <div class="analysis-item">
-                                        <div class="item-icon">!</div>
-                                        <p><strong>Định lượng thành tích:</strong> Thay vì viết "Hoàn thành tốt công việc", hãy dùng "Tăng 25% hiệu quả quy trình trong 6 tháng".</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Match Jobs Panel -->
-                            <div class="match-jobs-panel">
-                                <h3>KẾT QUẢ PHÙ HỢP HOÀN HẢO!</h3>
-                                <p>AI đã quét hơn 20,000+ tin tuyển dụng và tìm thấy 12 vị trí đang "Hot" khớp 95% với hồ sơ của bạn ngay lúc này.</p>
-                                <button class="btn-match-jobs" onclick="location.href='tim-viec-lam.html'">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                                        <circle cx="11" cy="11" r="8"></circle>
-                                        <path d="m21 21-4.35-4.35"></path>
-                                    </svg>
-                                    XEM VIỆC LÀM PHÙ HỢP NGAY
-                                </button>
-                            </div>
-                            
-                            <div style="text-align: center; margin-top: 10px;">
-                                <a href="#" onclick="location.reload()" style="color: #666; font-size: 13px; font-weight: 500;">Thử với tệp hồ sơ khác</a>
                             </div>
                         </div>
                     </div>
+
+                    <!-- Analysis Grid -->
+                    <div class="analysis-grid">
+                        <section class="analysis-card strengths">
+                            <h3><i data-lucide="check-circle"></i> Điểm mạnh chính</h3>
+                            <ul class="analysis-list">
+                                <li>
+                                    <h4>Động từ hành động</h4>
+                                    <p>Sử dụng các từ ngữ mang tính chuyên môn cao.</p>
+                                </li>
+                                <li>
+                                    <h4>Kỹ năng phù hợp</h4>
+                                    <p>Khớp với yêu cầu tuyển dụng hiện đại.</p>
+                                </li>
+                            </ul>
+                        </section>
+                        
+                        <section class="analysis-card improvements">
+                            <h3><i data-lucide="alert-circle"></i> Cần cải thiện</h3>
+                            <ul class="analysis-list">
+                                <li>
+                                    <h4>Dữ liệu định lượng</h4>
+                                    <p>Hãy thêm nhiều chỉ số hiệu suất công việc hơn.</p>
+                                </li>
+                                <li>
+                                    <h4>Trình bày văn bản</h4>
+                                    <p>Mật độ chữ hơi dày ở phần Giáo dục.</p>
+                                </li>
+                            </ul>
+                        </section>
+                    </div>
+
+                    <!-- Recommendations Section -->
+                    <section class="recommendations-section">
+                        <div class="section-head">
+                            <i data-lucide="zap"></i>
+                            <span>Đề xuất từ chuyên gia AI</span>
+                        </div>
+                        
+                        <div class="rec-list">
+                            <div class="rec-item">
+                                <div class="rec-icon"><i data-lucide="file-edit"></i></div>
+                                <div class="rec-info">
+                                    <h4>Viết lại Tóm tắt</h4>
+                                    <p>Cần tập trung nhiều hơn vào khả năng lãnh đạo.</p>
+                                </div>
+                                <a href="#" class="rec-action">Áp dụng</a>
+                            </div>
+                            
+                            <div class="rec-item">
+                                <div class="rec-icon"><i data-lucide="link"></i></div>
+                                <div class="rec-info">
+                                    <h4>Link Portfolio</h4>
+                                    <p>Trình bày thêm các dự án thực tế đã tham gia.</p>
+                                </div>
+                                <a href="#" class="rec-action">Thêm ngay</a>
+                            </div>
+                        </div>
+
+                        <button class="btn-download">
+                            <i data-lucide="download" style="width: 18px; margin-right: 8px;"></i>
+                            Tải báo cáo phân tích chi tiết (PDF)
+                        </button>
+                    </section>
                 </div>
+
+                <!-- Right Sidebar: Matching Jobs -->
+                <aside class="matching-jobs-card">
+                    <div class="matching-header">
+                        <h3><i data-lucide="briefcase"></i> Việc làm phù hợp</h3>
+                        <span class="badge-matches">Tìm thấy 8 kết quả</span>
+                    </div>
+
+                    <div class="job-matching-list">
+                        <!-- Job Item 1 -->
+                        <div class="job-match-item">
+                            <div class="job-match-top">
+                                <div class="comp-logo">G</div>
+                                <div class="job-match-info">
+                                    <h4>Quản lý Sản phẩm Cấp cao</h4>
+                                    <p>GlobalTech Solutions</p>
+                                </div>
+                                <div class="match-pct">
+                                    <span class="pct">96%</span>
+                                    <span class="lbl">PHÙ HỢP</span>
+                                </div>
+                            </div>
+                            <div class="job-match-meta">
+                                <span><i data-lucide="map-pin" style="width: 12px;"></i> Quận 1, Tp. HCM</span>
+                                <span><i data-lucide="dollar-sign" style="width: 12px;"></i> 35tr - 50tr</span>
+                            </div>
+                            <div class="job-match-actions">
+                                <button class="btn-quick-apply">Ứng tuyển ngay</button>
+                                <button class="btn-save"><i data-lucide="bookmark" style="width: 14px;"></i></button>
+                            </div>
+                        </div>
+
+                        <!-- Job Item 2 -->
+                        <div class="job-match-item">
+                            <div class="job-match-top">
+                                <div class="comp-logo">F</div>
+                                <div class="job-match-info">
+                                    <h4>Trưởng nhóm tối ưu (PO)</h4>
+                                    <p>FinStream App</p>
+                                </div>
+                                <div class="match-pct">
+                                    <span class="pct">92%</span>
+                                    <span class="lbl">PHÙ HỢP</span>
+                                </div>
+                            </div>
+                            <div class="job-match-meta">
+                                <span><i data-lucide="globe" style="width: 12px;"></i> Làm việc từ xa</span>
+                                <span><i data-lucide="dollar-sign" style="width: 12px;"></i> 25tr - 40tr</span>
+                            </div>
+                            <div class="job-match-actions">
+                                <button class="btn-quick-apply">Ứng tuyển ngay</button>
+                                <button class="btn-save"><i data-lucide="bookmark" style="width: 14px;"></i></button>
+                            </div>
+                        </div>
+
+                        <!-- Job Item 3 -->
+                        <div class="job-match-item">
+                            <div class="job-match-top">
+                                <div class="comp-logo">S</div>
+                                <div class="job-match-info">
+                                    <h4>Quản lý Sản phẩm (Growth)</h4>
+                                    <p>Spark Dynamics</p>
+                                </div>
+                                <div class="match-pct">
+                                    <span class="pct">88%</span>
+                                    <span class="lbl">PHÙ HỢP</span>
+                                </div>
+                            </div>
+                            <div class="job-match-meta">
+                                <span><i data-lucide="map-pin" style="width: 12px;"></i> Quận 7, Tp. HCM</span>
+                                <span><i data-lucide="dollar-sign" style="width: 12px;"></i> Thỏa thuận</span>
+                            </div>
+                            <div class="job-match-actions">
+                                <button class="btn-quick-apply">Ứng tuyển ngay</button>
+                                <button class="btn-save"><i data-lucide="bookmark" style="width: 14px;"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="#" class="view-all-matches">Xem tất cả việc làm</a>
+                </aside>
             </div>
         </div>
-
-        <!-- Features Section -->
-        <section style="padding: 60px 0; background-color: white;">
-            <div class="container">
-                <h2 style="text-align: center; margin-bottom: 40px; font-weight: 800;">TẠI SAO NÊN CHẤM ĐIỂM CV?</h2>
-                <div class="job-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px;">
-                    <div style="text-align: center;">
-                        <img src="https://careerviet.vn/template/images/icons/icon-ai.svg" alt="AI" style="width: 48px; margin-bottom: 20px;">
-                        <h3 style="margin-bottom: 12px;">Đánh Giá Khách Quan</h3>
-                        <p style="color: #666; font-size: 14px;">Công nghệ AI loại bỏ hoàn toàn cảm tính, chấm điểm dựa trên dữ liệu hàng triệu hồ sơ thành công.</p>
-                    </div>
-                    <div style="text-align: center;">
-                        <img src="https://careerviet.vn/template/images/icons/icon-ats.svg" alt="ATS" style="width: 48px; margin-bottom: 20px;">
-                        <h3 style="margin-bottom: 12px;">Vượt Qua Hệ Thống ATS</h3>
-                        <p style="color: #666; font-size: 14px;">Giúp CV của bạn thân thiện với hệ thống quản lý ứng viên của các tập đoàn lớn.</p>
-                    </div>
-                    <div style="text-align: center;">
-                        <img src="https://careerviet.vn/template/images/icons/icon-advice.svg" alt="Advice" style="width: 48px; margin-bottom: 20px;">
-                        <h3 style="margin-bottom: 12px;">Gợi Ý Cá Nhân Hóa</h3>
-                        <p style="color: #666; font-size: 14px;">Nhận các lời khuyên thực tế để sửa đổi CV phù hợp với từng lĩnh vực ngành nghề chuyên biệt.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
     </main>
+
+    <!-- Floating Shopping Bag Button (as per image) -->
+    <div class="float-btn">
+        <i data-lucide="shopping-bag"></i>
+    </div>
 
     <!-- Footer Placeholder -->
     <div id="footer-placeholder"></div>
 
     <script src="js/main.js"></script>
     <script>
-        function simulateUpload() {
-            // Hide upload, show scanning
-            document.getElementById('uploadStep').style.display = 'none';
-            document.getElementById('scanningStep').style.display = 'block';
-            
-            // Scroll to container top for better visibility
-            window.scrollTo({
-                top: document.querySelector('.upload-container').offsetTop - 100,
-                behavior: 'smooth'
-            });
+        // Initialize Lucide icons
+        lucide.createIcons();
 
-            // Simulate AI analysis for 2 seconds
+        // Simple script to simulate animation
+        document.querySelector('.btn-analyze').addEventListener('click', function() {
+            this.textContent = 'Đang phân tích...';
+            this.disabled = true;
             setTimeout(() => {
-                document.getElementById('scanningStep').style.display = 'none';
-                document.getElementById('resultsStep').style.display = 'block';
+                this.textContent = 'Phân tích lại';
+                this.disabled = false;
+                alert('Phân tích hoàn tất! Dữ liệu đã được cập nhật.');
             }, 2000);
-        }
+        });
     </script>
 </body>
 </html>

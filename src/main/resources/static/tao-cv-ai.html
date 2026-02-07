@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tạo CV bằng AI | CareerViet</title>
+    <meta name="description" content="Tạo CV chuyên nghiệp trong vài phút với trí tuệ nhân tạo.">
+    <!-- Main Style -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Page Specific Style -->
+    <link rel="stylesheet" href="css/tao-cv-ai.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <!-- Header Placeholder -->
+    <div id="header-placeholder"></div>
+
+    <main class="cv-builder-container">
+        <div class="container-wrapper">
+            <div class="main-layout">
+                <!-- Left Sidebar -->
+                <aside class="sidebar">
+                    <section class="filter-section">
+                        <h3>LĨNH VỰC</h3>
+                        <div class="filter-list">
+                            <div class="filter-item active">
+                                <i data-lucide="layout-grid"></i>
+                                <span>Tất cả mẫu</span>
+                            </div>
+                            <div class="filter-item">
+                                <i data-lucide="code-2"></i>
+                                <span>Công nghệ & IT</span>
+                            </div>
+                            <div class="filter-item">
+                                <i data-lucide="landmark"></i>
+                                <span>Tài chính & Kinh doanh</span>
+                            </div>
+                            <div class="filter-item">
+                                <i data-lucide="megaphone"></i>
+                                <span>Marketing & PR</span>
+                            </div>
+                            <div class="filter-item">
+                                <i data-lucide="palette"></i>
+                                <span>Thiết kế & Sáng tạo</span>
+                            </div>
+                            <div class="filter-item">
+                                <i data-lucide="graduation-cap"></i>
+                                <span>Giáo dục & Hàn lâm</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="filter-section">
+                        <h3>PHONG CÁCH</h3>
+                        <div class="style-options">
+                            <label class="style-option">
+                                <input type="checkbox" checked>
+                                <span>Tối giản (Minimalist)</span>
+                            </label>
+                            <label class="style-option">
+                                <input type="checkbox" checked>
+                                <span>Chuyên nghiệp</span>
+                            </label>
+                            <label class="style-option">
+                                <input type="checkbox">
+                                <span>Sáng tạo</span>
+                            </label>
+                        </div>
+                    </section>
+                </aside>
+
+                <!-- Right Content Area -->
+                <div class="content-area">
+                    <div class="search-and-filters">
+                        <div class="search-bar-wrapper">
+                            <i data-lucide="search"></i>
+                            <input type="text" class="search-input" placeholder="Tìm kiếm mẫu CV (VD: 'Hiện đại', 'Fullstack Engineer')...">
+                        </div>
+                        
+                        <div class="quick-filters">
+                            <div class="filter-btn">
+                                <span>Chuyên nghiệp</span>
+                                <i data-lucide="chevron-down"></i>
+                            </div>
+                            <div class="filter-btn">
+                                <span>Mức kinh nghiệm</span>
+                                <i data-lucide="chevron-down"></i>
+                            </div>
+                            <div class="filter-btn">
+                                <span>Màu sắc</span>
+                                <i data-lucide="palette"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Template Grid -->
+                    <div class="template-grid">
+                        <!-- Template 1 -->
+                        <div class="template-card">
+                            <div class="template-preview" style="background: #5b7c76;">
+                                <div class="preview-img">
+                                    <div class="preview-line h-1"></div>
+                                    <div class="preview-line h-2"></div>
+                                    <div class="preview-line"></div>
+                                    <div class="preview-line"></div>
+                                    <div class="preview-line"></div>
+                                </div>
+                            </div>
+                            <div class="template-info">
+                                <div class="template-head">
+                                    <h3 class="template-title">The Silicon Valley</h3>
+                                    <span class="badge-style badge-ats">ATS-Friendly</span>
+                                </div>
+                                <p class="template-desc">Bố cục sạch sẽ, tối ưu hóa cho các chuyên gia công nghệ và kỹ sư phần mềm.</p>
+                                <button class="btn-use-template">
+                                    Sử dụng mẫu này
+                                    <i data-lucide="arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Template 2 -->
+                        <div class="template-card">
+                            <div class="template-preview" style="background: #cbd5e1;">
+                                <div class="preview-img">
+                                    <div class="preview-line h-1" style="background: var(--color-primary);"></div>
+                                    <div class="preview-line h-2"></div>
+                                    <div class="preview-line"></div>
+                                    <div class="preview-line"></div>
+                                    <div class="preview-line"></div>
+                                </div>
+                            </div>
+                            <div class="template-info">
+                                <div class="template-head">
+                                    <h3 class="template-title">Modern Marketing</h3>
+                                    <span class="badge-style badge-creative">Creative</span>
+                                </div>
+                                <p class="template-desc">Bố cục năng động dành riêng cho các nhà sáng tạo nội dung và truyền thông.</p>
+                                <button class="btn-use-template">
+                                    Sử dụng mẫu này
+                                    <i data-lucide="arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Template 3 -->
+                        <div class="template-card">
+                            <div class="template-preview" style="background: #f5eae0;">
+                                <div class="preview-img">
+                                    <div class="preview-line h-1" style="background: #d97706;"></div>
+                                    <div class="preview-line h-2"></div>
+                                    <div class="preview-line"></div>
+                                    <div class="preview-line"></div>
+                                    <div class="preview-line"></div>
+                                </div>
+                            </div>
+                            <div class="template-info">
+                                <div class="template-head">
+                                    <h3 class="template-title">Executive Gold</h3>
+                                    <span class="badge-style badge-premium">Premium</span>
+                                </div>
+                                <p class="template-desc">Mẫu cao cấp được thiết kế cho quản lý cấp cao và ban điều hành doanh nghiệp.</p>
+                                <button class="btn-use-template">
+                                    Sử dụng mẫu này
+                                    <i data-lucide="arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Template 4 -->
+                        <div class="template-card">
+                            <div class="template-preview" style="background: #f3d2c1;">
+                                <div class="preview-img">
+                                    <div class="preview-line h-1"></div>
+                                    <div class="preview-line h-2"></div>
+                                    <div class="preview-line"></div>
+                                    <div class="preview-line"></div>
+                                    <div class="preview-line"></div>
+                                </div>
+                            </div>
+                            <div class="template-info">
+                                <div class="template-head">
+                                    <h3 class="template-title">The Researcher</h3>
+                                    <span class="badge-style badge-premium" style="background: #e0f2fe; color: #0369a1;">Academic</span>
+                                </div>
+                                <p class="template-desc">Tập trung vào trình bày các ấn phẩm khoa học, bằng cấp và lịch sử nghiên cứu.</p>
+                                <button class="btn-use-template">
+                                    Sử dụng mẫu này
+                                    <i data-lucide="arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Template 5 -->
+                        <div class="template-card">
+                            <div class="template-preview" style="background: #f88c6b;">
+                                <div class="preview-img">
+                                    <div class="preview-line" style="width: 50px; height: 50px; border-radius: 50%; background: #0f172a; margin-bottom: 0.5rem;"></div>
+                                    <div class="preview-line h-1" style="width: 60%;"></div>
+                                    <div class="preview-line h-2"></div>
+                                    <div class="preview-line"></div>
+                                </div>
+                            </div>
+                            <div class="template-info">
+                                <div class="template-head">
+                                    <h3 class="template-title">Impact Designer</h3>
+                                    <span class="badge-style" style="background: #fee2e2; color: #ef4444;">Bold</span>
+                                </div>
+                                <p class="template-desc">Điểm nhấn độc đáo với bố cục hình ảnh hiện đại và màu sắc tương phản mạnh.</p>
+                                <button class="btn-use-template">
+                                    Sử dụng mẫu này
+                                    <i data-lucide="arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Template 6 -->
+                        <div class="template-card">
+                            <div class="template-preview" style="background: #f1f5f9;">
+                                <div class="preview-img" style="display: grid; grid-template-columns: 1fr 2fr; gap: 0.75rem;">
+                                    <div style="background: #e2e8f0; border-radius: 4px;"></div>
+                                    <div>
+                                        <div class="preview-line h-1" style="width: 100%;"></div>
+                                        <div class="preview-line" style="margin-top: 10px;"></div>
+                                        <div class="preview-line"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="template-info">
+                                <div class="template-head">
+                                    <h3 class="template-title">Hybrid Professional</h3>
+                                    <span class="badge-style" style="background: #dcfce7; color: #16a34a;">Top Rated</span>
+                                </div>
+                                <p class="template-desc">Sự kết hợp hoàn hảo giữa tính chuyên nghiệp cổ điển và phong cách hiện đại.</p>
+                                <button class="btn-use-template">
+                                    Sử dụng mẫu này
+                                    <i data-lucide="arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pagination / View All -->
+                    <div class="view-all-wrapper">
+                        <button class="btn-view-all">
+                            Xem tất cả phong cách
+                            <i data-lucide="chevron-down"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer Placeholder -->
+    <div id="footer-placeholder"></div>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Add active state to filter items
+        document.querySelectorAll('.filter-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelector('.filter-item.active').classList.remove('active');
+                this.classList.add('active');
+            });
+        });
+
+        // Redirect to editor when clicking "Use Template"
+        document.querySelectorAll('.btn-use-template').forEach(btn => {
+            btn.addEventListener('click', function() {
+                window.location.href = 'cv-editor.html';
+            });
+        });
+    </script>
+</body>
+</html>
