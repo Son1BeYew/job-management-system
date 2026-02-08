@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🎯 Job Management System with AI-Powered Recruitment
+#  Job Management System with AI-Powered Recruitment
 
 ### Intelligent CV Matching • Automated Recruitment • Multi-Role Platform
 
@@ -29,7 +29,7 @@ The AI engine analyzes CV submissions against job requirements, calculating comp
 
 ---
 
-## 🏗️ Architecture
+##  Architecture
 
 ### System Components
 
