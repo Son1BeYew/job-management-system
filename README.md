@@ -191,7 +191,7 @@ Present Skills + Required Skills → Gap Report
 
 **1. Clone Repository**
 ```bash
-git clone https://github.com/your-username/job-management-system.git
+git clone https://github.com/Son1BeYew/job-management-system.git
 cd job-management-system
 ```
 
