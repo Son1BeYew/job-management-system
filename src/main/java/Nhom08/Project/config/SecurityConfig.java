@@ -36,6 +36,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+            .cors(cors -> cors.disable()) // Enable CORS for API calls with credentials
             .csrf(csrf -> csrf.disable()) // Disable for development, enable in production
             .authorizeHttpRequests(auth -> auth
                 // Public static resources
@@ -65,6 +66,10 @@ public class SecurityConfig {
                 // Employer pages - require EMPLOYER role  
                 .requestMatchers("/employer/**").hasRole("EMPLOYER")
                 .requestMatchers("/dashboard.html", "/quan-ly-dang-tuyen.html", "/quan-ly-ung-vien.html").hasRole("EMPLOYER")
+                .requestMatchers("/quan-ly-dang-tuyen/**", "/post-job.html").hasRole("EMPLOYER")
+                
+                // Job API endpoints - require EMPLOYER role
+                .requestMatchers("/api/jobs/**").hasRole("EMPLOYER")
                 
                 // User/Candidate pages - require USER role
                 .requestMatchers("/profile/**", "/my-applications/**").hasRole("USER")
@@ -92,6 +97,20 @@ public class SecurityConfig {
             )
             .exceptionHandling(ex -> ex
                 .accessDeniedPage("/403")
+                .authenticationEntryPoint((request, response, authException) -> {
+                    String requestURI = request.getRequestURI();
+                    // Redirect employer pages to employer login
+                    if (requestURI.contains("/dashboard") || 
+                        requestURI.contains("/quan-ly") || 
+                        requestURI.contains("/employer") ||
+                        requestURI.contains("/post-job")) {
+                        response.sendRedirect("/employer-login.html");
+                    } else if (requestURI.contains("/admin")) {
+                        response.sendRedirect("/login");
+                    } else {
+                        response.sendRedirect("/candidate-login.html");
+                    }
+                })
             );
 
         return http.build();

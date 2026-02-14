@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Tuyển Dụng</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <link rel="stylesheet" href="/css/post-job.css">
+</head>
+<body>
+    <!-- Header Placeholder -->
+    <div id="header-employer-placeholder"></div>
+    
+    <!-- Sub Navigation -->
+    <nav class="sub-nav">
+        <div class="container">
+            <div class="sub-nav-links">
+                <a href="dashboard.html" class="sub-nav-link">Dashboard</a>
+                <a href="quan-ly-dang-tuyen.html" class="sub-nav-link active">Quản Lý Đăng Tuyển</a>
+                <a href="quan-ly-ung-vien.html" class="sub-nav-link">Quản Lý Ứng Viên</a>
+                <a href="#" class="sub-nav-link">
+                    Chiến dịch tuyển dụng
+                    <span class="badge-new">NEW</span>
+                </a>
+                <a href="#" class="sub-nav-link">Đơn Hàng</a>
+                <a href="#" class="sub-nav-link">Tài Khoản</a>
+                <a href="#" class="sub-nav-link">CVRewards</a>
+                <a href="#" class="sub-nav-link">
+                    Xem thêm
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </a>
+            </div>
+            <div class="sub-nav-actions">
+                <a href="#" class="btn-sub-nav btn-search">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                    TÌM HỒ SƠ
+                </a>
+                <a href="/quan-ly-dang-tuyen/post-job" class="btn-sub-nav btn-post" style="text-decoration: none;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                        <line x1="12" y1="18" x2="12" y2="12"></line>
+                        <line x1="9" y1="15" x2="15" y2="15"></line>
+                    </svg>
+                    ĐĂNG TUYỂN DỤNG
+                </a>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="post-job-container">
+        <div class="post-job-header">
+            <h1>ĐĂNG TUYỂN DỤNG</h1>
+            <a href="/quan-ly-dang-tuyen" class="guide-link">Hướng dẫn</a>
+        </div>
+
+        <form id="jobPostForm">
+            <!-- THÔNG TIN CÔNG TY (Auto-filled) -->
+            <section class="form-section company-info-section" id="companyInfoSection" style="display: none;">
+                <h2 class="section-title"> THÔNG TIN CÔNG TY</h2>
+                <div class="company-info-display">
+                    <div class="info-row">
+                        <strong>Công ty:</strong> <span id="displayCompanyName">-</span>
+                    </div>
+                    <div class="info-row">
+                        <strong>Địa chỉ:</strong> <span id="displayAddress">-</span>
+                    </div>
+                    <div class="info-row">
+                        <strong>Người liên hệ:</strong> <span id="displayContactName">-</span>
+                    </div>
+                    <div class="info-row">
+                        <strong>SĐT:</strong> <span id="displayContactPhone">-</span>
+                    </div>
+                    <div class="info-row">
+                        <strong>Email:</strong> <span id="displayEmail">-</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- THÔNG TIN TUYỂN DỤNG -->
+            <section class="form-section">
+                <h2 class="section-title">THÔNG TIN TUYỂN DỤNG</h2>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="title">Chức danh tuyển dụng* <span class="tooltip">ℹ</span></label>
+                        <input type="text" id="title" name="title" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="jobCode">Mã công việc <span class="tooltip">ℹ</span></label>
+                        <input type="text" id="jobCode" name="jobCode">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="industry">Ngành nghề* <span class="tooltip">ℹ</span></label>
+                        <select id="industry" name="industry" required>
+                            <option value="">Chọn ngành nghề</option>
+                            <option value="CNTT">Công nghệ thông tin</option>
+                            <option value="Marketing">Marketing</option>
+                            <option value="Kinh doanh">Kinh doanh</option>
+                            <option value="Kế toán">Kế toán</option>
+                            <option value="Nhân sự">Nhân sự</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="location">Nơi làm việc*</label>
+                        <input type="text" id="location" name="location" placeholder="VD: Thủ Đức, TP.HCM" required>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="hideLocation" name="hideLocation">
+                            <span>Bảo mật địa điểm làm việc</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="description">Mô Tả Công Việc *</label>
+                    <div class="editor-toolbar">
+                        <button type="button" class="btn-editor"><b>B</b></button>
+                        <button type="button" class="btn-editor"><i>I</i></button>
+                        <button type="button" class="btn-editor">• List</button>
+                        <button type="button" class="btn-editor">1. List</button>
+                    </div>
+                    <textarea id="description" name="description" rows="6" required></textarea>
+                    <small>Nhập hơn 10.000 kí tự</small>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="requirements">Kỹ năng yêu cầu *</label>
+                    <div class="editor-toolbar">
+                        <button type="button" class="btn-editor"><b>B</b></button>
+                        <button type="button" class="btn-editor"><i>I</i></button>
+                        <button type="button" class="btn-editor">• List</button>
+                        <button type="button" class="btn-editor">1. List</button>
+                    </div>
+                    <textarea id="requirements" name="requirements" rows="6" required></textarea>
+                    <small>Nhập hơn 10.000 kí tự</small>
+                </div>
+
+                <!-- Video -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="videoUrl1">Video Giới Thiệu Công Việc</label>
+                        <input type="url" id="videoUrl1" name="videoUrl1" placeholder="Link video youtube">
+                        <button type="button" class="btn-preview">Xem trước</button>
+                    </div>
+                    <div class="form-group">
+                        <label for="videoUrl2">Video Giới Thiệu Công Việc 2</label>
+                        <input type="url" id="videoUrl2" name="videoUrl2" placeholder="Link video youtube">
+                        <button type="button" class="btn-preview">Xem trước</button>
+                    </div>
+                </div>
+
+                <!-- Lương -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="currency">Lương *</label>
+                        <select id="currency" name="currency">
+                            <option value="VND">VND</option>
+                            <option value="USD">USD</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="salaryMin">Từ*</label>
+                        <input type="number" id="salaryMin" name="salaryMin" placeholder="Tối Thiểu">
+                    </div>
+                    <div class="form-group">
+                        <label for="salaryMax">Đến*</label>
+                        <input type="number" id="salaryMax" name="salaryMax" placeholder="Tối Đa">
+                    </div>
+                    <div class="form-group">
+                        <label>&nbsp;</label>
+                        <button type="button" class="btn-salary-display">
+                            <span id="salaryDisplayText">Hiện thị</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Hình thức -->
+                <div class="form-group full-width">
+                    <label>Hình thức*</label>
+                    <div class="checkbox-group checkbox-group-horizontal">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="benefits" value="bao-hiem"> Nhân viên chính thức
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="benefits" value="ban-thoi-gian"> Bán thời gian
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="benefits" value="thoi-vu"> Thời vụ - Nghề tự do
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="benefits" value="thuc-tap"> Thực tập
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Hạn nộp hồ sơ -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="deadline">Hạn chót nhận hồ sơ*</label>
+                        <input type="date" id="deadline" name="deadline" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Yêu cầu thu thập thiểu?</label>
+                        <div class="radio-group">
+                            <label class="radio-label">
+                                <input type="radio" name="urgentRecruitment" value="true"> Bắt buộc
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="urgentRecruitment" value="false" checked> Không bắt buộc
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ngôn ngữ -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Ngôn Ngữ Trình Bày Hồ Sơ</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="languages" value="tieng-anh"> Tiếng Anh
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="languages" value="tieng-phap"> Tiếng Pháp
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="languages" value="tieng-nhat"> Tiếng Nhật
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="languages" value="tieng-viet" checked> Tiếng Việt
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="languages" value="tieng-trung"> Tiếng Trung
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="languages" value="tieng-han"> Tiếng Hàn Quốc
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="resumeTag">Ten resume tag <span class="tooltip">ℹ</span></label>
+                        <input type="text" id="resumeTag" name="resumeTag">
+                        <button type="button" class="btn-add-tag">Thêm Tag</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PHÚC LỢI -->
+            <section class="form-section">
+                <h2 class="section-title">PHÚC LỢI</h2>
+                
+                <div class="benefits-grid">
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="benefits" value="bao-hiem"> Chế độ bảo hiểm
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="benefits" value="cham-soc"> Chăm sóc sức khỏe
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="benefits" value="du-lich"> Du Lịch
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="benefits" value="dao-tao"> Đào tạo
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="benefits" value="tang-luong"> Tăng lương
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="benefits" value="laptop"> Laptop
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="benefits" value="cong-tac-phi"> Công tác phí
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="benefits" value="du-lich-nuoc-ngoai"> Du lịch nước ngoài
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="benefits" value="nghi-phep"> Nghỉ phép năm
+                    </label>
+                </div>
+
+                <!-- Work mode -->
+                <div class="form-group full-width">
+                    <label>Hình thức làm việc</label>
+                    <div class="work-mode-grid">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="workFromHome" name="workFromHome"> Làm việc tại nhà
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="workAtOffice" name="workAtOffice" checked> Làm việc tại văn phòng
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- YÊU CẦU CHUNG -->
+            <section class="form-section">
+                <h2 class="section-title">YÊU CẦU CHUNG</h2>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Giới tính</label>
+                        <div class="radio-group">
+                            <label class="radio-label">
+                                <input type="radio" name="gender" value="Nam/Nữ" checked> Nam/Nữ
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="gender" value="Nam"> Nam
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="gender" value="Nữ"> Nữ
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Tuổi</label>
+                        <div class="age-range">
+                            <input type="number" id="ageMin" name="ageMin" placeholder="Từ">
+                            <span>Đến</span>
+                            <input type="number" id="ageMax" name="ageMax" placeholder="Đến">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="experience">Kinh nghiệm *</label>
+                        <select id="experience" name="experience">
+                            <option value="">Chưa có kinh nghiệm</option>
+                            <option value="duoi-1-nam">Dưới 1 năm</option>
+                            <option value="1-2-nam">1-2 năm</option>
+                            <option value="2-5-nam">2-5 năm</option>
+                            <option value="tren-5-nam">Trên 5 năm</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="educationLevel">Cấp bậc *</label>
+                        <select id="educationLevel" name="educationLevel">
+                            <option value="">Chọn Cấp bậc</option>
+                            <option value="trung-cap">Trung cấp</option>
+                            <option value="cao-dang">Cao đẳng</option>
+                            <option value="dai-hoc">Đại học</option>
+                            <option value="thac-si">Thạc sĩ</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="degreeLevel">Bằng cấp *</label>
+                        <select id="degreeLevel" name="degreeLevel">
+                            <option value="">Không yêu cầu bằng cấp</option>
+                            <option value="trung-hoc">Trung học</option>
+                            <option value="cao-dang">Cao đẳng</option>
+                            <option value="dai-hoc">Đại học</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Thông tin khác -->
+            <section class="form-section">
+                <h2 class="section-title">THÔNG TIN KHÁC (Không bắt buộc)</h2>
+                <div class="form-group full-width">
+                    <textarea id="additionalInfo" name="additionalInfo" rows="4" 
+                        placeholder="Giới thiệu về môi trường làm việc, thời gian thử việc, cơ hội huấn luyện, đồng nghiệp,..."></textarea>
+                    <button type="button" class="btn-add">+ Bổ sung</button>
+                </div>
+            </section>
+
+            <!-- Form Actions -->
+            <div class="form-actions">
+                <button type="button" class="btn-cancel" onclick="history.back()">Hủy</button>
+                <button type="submit" class="btn-submit">Đăng Tuyển Dụng</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Footer Placeholder -->
+    <div id="footer-placeholder"></div>
+
+    <script src="/js/employer.js"></script>
+    <script src="/js/post-job.js"></script>
+</body>
+</html>
+

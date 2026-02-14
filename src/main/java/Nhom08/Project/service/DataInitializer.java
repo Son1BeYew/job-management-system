@@ -33,11 +33,11 @@ public class DataInitializer implements CommandLineRunner {
             System.out.println("✅ Created role: ROLE_ADMIN");
         }
 
-        // Create ROLE_USER if not exists
-        if (!roleRepository.existsByName(Role.USER)) {
-            Role userRole = new Role(Role.USER, "Người tìm việc");
-            roleRepository.save(userRole);
-            System.out.println("✅ Created role: ROLE_USER");
+        // Create ROLE_CANDIDATE if not exists
+        if (!roleRepository.existsByName(Role.CANDIDATE)) {
+            Role candidateRole = new Role(Role.CANDIDATE, "Ứng viên tìm việc");
+            roleRepository.save(candidateRole);
+            System.out.println("✅ Created role: ROLE_CANDIDATE");
         }
 
         // Create ROLE_EMPLOYER if not exists

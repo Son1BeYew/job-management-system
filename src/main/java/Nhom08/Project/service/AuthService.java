@@ -42,9 +42,9 @@ public class AuthService {
             throw new RuntimeException("Email đã được sử dụng");
         }
 
-        // Get USER role
-        Role userRole = roleRepository.findByName(Role.USER)
-                .orElseThrow(() -> new RuntimeException("Role USER không tồn tại"));
+        // Get CANDIDATE role
+        Role candidateRole = roleRepository.findByName(Role.CANDIDATE)
+                .orElseThrow(() -> new RuntimeException("Role CANDIDATE không tồn tại"));
 
         // Create user
         User user = new User();
@@ -52,7 +52,7 @@ public class AuthService {
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
         user.setFullName(dto.getFullName());
         user.setPhone(dto.getPhone());
-        user.setRole(userRole);
+        user.setRole(candidateRole);
         user.setEnabled(true);
 
         return userRepository.save(user);
