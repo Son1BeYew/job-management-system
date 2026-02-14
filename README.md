@@ -1,302 +1,382 @@
-# CareerViet - Hệ Thống Quản Lý Tuyển Dụng
+<div align="center">
 
-[![Java](https://img.shields.io/badge/Java-17-orange)](https://openjdk.org/)
-[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.1.0--M1-brightgreen)](https://spring.io/projects/spring-boot)
-[![MySQL](https://img.shields.io/badge/MySQL-8.0-blue)](https://www.mysql.com/)
-[![License](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
+# 🎯 Job Management System with AI-Powered Recruitment
 
-Nền tảng tuyển dụng trực tuyến toàn diện kết nối nhà tuyển dụng và ứng viên, tích hợp AI hỗ trợ chấm điểm CV và tạo CV chuyên nghiệp.
+### Intelligent CV Matching • Automated Recruitment • Multi-Role Platform
 
----
+*Spring Boot • MySQL • AI Integration*
 
-## Mục Lục
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.1.0-green?logo=spring-boot)](https://spring.io/projects/spring-boot)
+[![Java](https://img.shields.io/badge/Java-17-orange?logo=openjdk)](https://openjdk.org/projects/jdk/17/)
+[![MySQL](https://img.shields.io/badge/MySQL-8.0-blue?logo=mysql)](https://www.mysql.com/)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-- [Tổng Quan](#tổng-quan)
-- [Tính Năng](#tính-năng)
-- [Kiến Trúc Hệ Thống](#kiến-trúc-hệ-thống)
-- [Công Nghệ Sử Dụng](#công-nghệ-sử-dụng)
-- [Yêu Cầu Hệ Thống](#yêu-cầu-hệ-thống)
-- [Cài Đặt & Khởi Chạy](#cài-đặt--khởi-chạy)
-- [Cấu Trúc Dự Án](#cấu-trúc-dự-án)
-- [API Endpoints](#api-endpoints)
-- [Phân Quyền](#phân-quyền)
-- [Giao Diện](#giao-diện)
-- [Thành Viên Nhóm](#thành-viên-nhóm)
+</div>
 
 ---
 
-## Tổng Quan
+## 📋 Overview
 
-**CareerViet** là hệ thống quản lý tuyển dụng được xây dựng trên nền tảng Spring Boot, cung cấp giải pháp kết nối giữa nhà tuyển dụng và ứng viên. Hệ thống hỗ trợ ba vai trò chính: **Quản trị viên (Admin)**, **Nhà tuyển dụng (Employer)** và **Ứng viên (Candidate)**, mỗi vai trò có giao diện và chức năng riêng biệt.
+A comprehensive recruitment management system that leverages AI technology to streamline the hiring process. The platform connects job seekers with employers through intelligent CV matching, automated scoring, and streamlined application workflows.
 
-### Điểm nổi bật
+### Core Intelligence
 
-- Hệ thống đăng ký đa bước dành cho nhà tuyển dụng
-- Tích hợp AI chấm điểm CV và tạo CV chuyên nghiệp
-- Tìm kiếm việc làm nâng cao với bộ lọc đa tiêu chí
-- Phân quyền chi tiết với Spring Security
-- Triển khai dễ dàng với Docker
-
----
-
-## Tính Năng
-
-### Ứng Viên
-| Tính năng | Mô tả |
-|-----------|--------|
-| Đăng ký / Đăng nhập | Tạo tài khoản và xác thực bằng email |
-| Tìm việc làm | Tìm kiếm nâng cao theo vị trí, mức lương, ngành nghề |
-| Chấm điểm CV (AI) | Upload CV (PDF/DOCX) để nhận đánh giá và gợi ý cải thiện |
-| Tạo CV bằng AI | Chọn mẫu CV theo ngành nghề, phong cách và tạo CV chuyên nghiệp |
-| Chỉnh sửa CV | Giao diện WYSIWYG để chỉnh sửa CV trực tiếp |
-
-### Nhà Tuyển Dụng
-| Tính năng | Mô tả |
-|-----------|--------|
-| Đăng ký 2 bước | Bước 1: Tạo tài khoản — Bước 2: Thông tin công ty |
-| Dashboard | Tổng quan hoạt động tuyển dụng |
-| Quản lý đăng tuyển | Tạo, chỉnh sửa, xóa tin tuyển dụng |
-| Quản lý ứng viên | Xem và quản lý hồ sơ ứng tuyển |
-
-### Quản Trị Viên
-| Tính năng | Mô tả |
-|-----------|--------|
-| Dashboard thống kê | Tổng quan số liệu hệ thống |
-| Quản lý người dùng | Theo dõi tổng số người dùng, nhà tuyển dụng, ứng viên |
+The AI engine analyzes CV submissions against job requirements, calculating compatibility scores based on:
+- **Skill extraction** from CV documents (PDF/DOCX)
+- **Requirement parsing** from job postings
+- **Experience matching** and **gap analysis**
+- **Automated ranking** of candidates by fit percentage
 
 ---
 
-## Kiến Trúc Hệ Thống
+## 🏗️ Architecture
+
+### System Components
 
 ```
-┌─────────────────────────────────────────────────────┐
-│                    Client (Browser)                  │
-│          HTML / CSS / JavaScript / Bootstrap         │
-└──────────────────────┬──────────────────────────────┘
-                       │ HTTP / REST API
-┌──────────────────────▼──────────────────────────────┐
-│                  Spring Boot Server                  │
-│  ┌─────────────┐  ┌────────────┐  ┌──────────────┐  │
-│  │ Controllers  │→│  Services  │→│ Repositories  │  │
-│  │  (REST API)  │  │ (Business) │  │   (JPA/DB)   │  │
-│  └─────────────┘  └────────────┘  └──────┬───────┘  │
-│  ┌─────────────┐  ┌────────────┐         │          │
-│  │   Security   │  │    DTOs    │         │          │
-│  │(Spring Sec.) │  │(Validation)│         │          │
-│  └─────────────┘  └────────────┘         │          │
-└──────────────────────────────────────────┼──────────┘
-                                           │ JDBC
-┌──────────────────────────────────────────▼──────────┐
-│                   MySQL 8.0 (Docker)                 │
-│                   Database: qltd_db                  │
-└─────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────┐
+│                         PRESENTATION LAYER                      │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────────────┐  │
+│  │   Admin UI   │  │  Employer UI │  │   Candidate UI       │  │
+│  └──────────────┘  └──────────────┘  └──────────────────────┘  │
+└─────────────────────────────────────────────────────────────────┘
+                              ↓
+┌─────────────────────────────────────────────────────────────────┐
+│                          API LAYER                              │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────────────┐  │
+│  │ REST API     │  │ Auth Service │  │   AI Matching Service│  │
+│  └──────────────┘  └──────────────┘  └──────────────────────┘  │
+└─────────────────────────────────────────────────────────────────┘
+                              ↓
+┌─────────────────────────────────────────────────────────────────┐
+│                        BUSINESS LAYER                           │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────────────┐  │
+│  │ User Service │  │ Job Service  │  │  Analytics Service   │  │
+│  └──────────────┘  └──────────────┘  └──────────────────────┘  │
+└─────────────────────────────────────────────────────────────────┘
+                              ↓
+┌─────────────────────────────────────────────────────────────────┐
+│                         DATA LAYER                              │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────────────┐  │
+│  │   MySQL      │  │  Repository  │  │  Entity Models       │  │
+│  └──────────────┘  └──────────────┘  └──────────────────────┘  │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+### Technology Stack
+
+| Category | Technology | Purpose |
+|----------|------------|---------|
+| **Backend** | Spring Boot 4.1.0 | Application framework |
+| **Language** | Java 17 | Core programming language |
+| **Database** | MySQL 8.0 | Data persistence |
+| **ORM** | Spring Data JPA | Database abstraction |
+| **Security** | Spring Security | Authentication & authorization |
+| **Template Engine** | Thymeleaf | Server-side rendering |
+| **Build Tool** | Maven | Dependency management |
+| **Container** | Docker | Database deployment |
+| **Database UI** | phpMyAdmin | Database administration |
+
+---
+
+## 👥 User Roles & Features
+
+### 1️⃣ Administrator
+
+**Full system control and oversight**
+
+| Feature | Description |
+|---------|-------------|
+| **User Management** | CRUD operations for all user types |
+| **Employer Management** | Approve/reject employer registrations |
+| **Industry Management** | Manage job categories and sectors |
+| **Skills Management** | Maintain skill taxonomy |
+| **System Analytics** | Dashboard with key metrics |
+
+**Analytics Dashboard:**
+```
+┌─────────────────┬─────────────────┬─────────────────┐
+│ Total Candidates│ CVs Submitted   │ Active Employers│
+│     1,247       │      856        │       89        │
+└─────────────────┴─────────────────┴─────────────────┘
+
+Top Industries:          Top Skills:
+• IT/Software (35%)      • Java (28%)
+• Finance (22%)          • Python (24%)
+• Healthcare (18%)       • SQL (19%)
 ```
 
 ---
 
-## Công Nghệ Sử Dụng
+### 2️⃣ Employer
 
-| Thành phần | Công nghệ |
-|-----------|-----------|
-| Backend | Java 17, Spring Boot 4.1.0-M1 |
-| Security | Spring Security 6, BCrypt |
-| ORM | Spring Data JPA, Hibernate |
-| Database | MySQL 8.0 |
-| Template Engine | Thymeleaf |
-| Frontend | HTML5, CSS3, JavaScript, Bootstrap |
-| Build Tool | Maven |
-| Containerization | Docker, Docker Compose |
-| DB Admin | PhpMyAdmin |
+**Job posting and candidate management**
+
+| Feature | Description |
+|---------|-------------|
+| **Job Creation** | Post positions with detailed requirements |
+| **AI Matching** | View compatibility scores for each applicant |
+| **Application Review** | Approve/reject with one click |
+| **Candidate Sorting** | Filter by score, date, status |
+| **Bulk Actions** | Process multiple applications |
+
+**Application Workflow:**
+```mermaid
+graph LR
+    A[CV Received] --> B[AI Analysis]
+    B --> C{Score > 70%?}
+    C -->|Yes| D[Shortlist]
+    C -->|No| E[Review Manual]
+    D --> F[Interview]
+    E --> G[Reject]
+```
 
 ---
 
-## Yêu Cầu Hệ Thống
+### 3️⃣ Candidate (User)
 
-- **Java** 17 trở lên
-- **Maven** 3.8+ (hoặc sử dụng Maven Wrapper đi kèm)
-- **Docker** & **Docker Compose** (cho database)
-- **Git**
+**Profile management and job application**
+
+| Feature | Description |
+|---------|-------------|
+| **Profile Builder** | Create and update personal profile |
+| **CV Upload** | Support PDF/DOCX formats |
+| **AI CV Generator** | Auto-create CV from profile data |
+| **Job Search** | Browse and apply to positions |
+| **Application Tracking** | Monitor application status |
+| **AI Feedback** | View matching scores and skill gaps |
+
+**AI CV Generator Process:**
+```
+Input Profile Data → Template Selection → AI Enhancement
+                                          ↓
+                        Professional CV + Missing Skills Highlight
+```
 
 ---
 
-## Cài Đặt & Khởi Chạy
+### 4️⃣ AI Engine
 
-### 1. Clone dự án
+**Intelligent matching and analysis**
 
+| Capability | Description |
+|------------|-------------|
+| **CV Parsing** | Extract skills from uploaded documents |
+| **Requirement Analysis** | Parse job posting requirements |
+| **Matching Algorithm** | Calculate compatibility percentage |
+| **Gap Detection** | Identify missing skills for candidates |
+| **Ranking System** | Sort applicants by fit score |
+
+**Matching Algorithm:**
+```
+Score = (Skill Match × 40%) + (Experience Match × 30%) +
+        (Education Match × 20%) + (Keyword Match × 10%)
+
+Skill Gap Analysis:
+Present Skills + Required Skills → Gap Report
+```
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- **JDK 17+**
+- **Maven 3.8+**
+- **Docker** (for MySQL)
+- **IDE**: IntelliJ IDEA / Eclipse / VS Code
+
+### Installation
+
+**1. Clone Repository**
 ```bash
-git clone https://github.com/<your-org>/Nhom08-QLTD.git
-cd Nhom08-QLTD
+git clone https://github.com/Son1BeYew/job-management-system.git
+cd job-management-system
 ```
 
-### 2. Khởi động Database
-
+**2. Start Database**
 ```bash
 docker-compose up -d
 ```
 
-Lệnh trên sẽ khởi tạo:
-- **MySQL 8.0** — Port `8085`
-- **PhpMyAdmin** — Port `8086` (truy cập tại `http://localhost:8086`)
+**3. Configure Application**
 
-### 3. Chạy ứng dụng
+Edit `src/main/resources/application.properties` if needed:
+```properties
+spring.datasource.url=jdbc:mysql://localhost:8085/qltd_db
+spring.datasource.username=qltd_user
+spring.datasource.password=qltd_pass123
+```
 
-**Linux / macOS:**
+**4. Run Application**
 ```bash
-./mvnw spring-boot:run
+mvn spring-boot:run
 ```
 
-**Windows:**
+**5. Access Application**
+```
+Application:  http://localhost:8083
+phpMyAdmin:   http://localhost:8086
+```
+
+### Default Credentials
+
+| Role | Email | Password |
+|------|-------|----------|
+| Admin | admin@careerviet.vn | admin123 |
+
+---
+
+## 📁 Project Structure
+
+```
+job-management-system/
+├── src/main/java/Nhom08/Project/
+│   ├── config/              # Security & web configuration
+│   │   └── SecurityConfig.java
+│   ├── controller/          # REST & MVC controllers
+│   │   ├── AdminController.java
+│   │   ├── AuthController.java
+│   │   ├── PageController.java
+│   │   └── UserController.java
+│   ├── dto/                 # Data transfer objects
+│   │   ├── LoginDTO.java
+│   │   ├── UserRegisterDTO.java
+│   │   └── EmployerRegisterStep*.java
+│   ├── entity/              # JPA entities
+│   │   ├── User.java
+│   │   ├── Employer.java
+│   │   └── Role.java
+│   ├── repository/          # Data access layer
+│   ├── service/             # Business logic
+│   └── QltdApplication.java # Main entry point
+├── src/main/resources/
+│   ├── static/              # HTML, CSS, JS, Images
+│   ├── templates/           # Thymeleaf templates
+│   └── application.properties
+├── docker-compose.yml       # Database configuration
+└── pom.xml                  # Maven dependencies
+```
+
+---
+
+## 🔐 Security
+
+### Authentication Flow
+
+```
+┌─────────┐    ┌─────────────┐    ┌──────────────┐
+│  User   │───→│  Spring     │───→│  Session     │
+│ Request │    │  Security   │    │  Management  │
+└─────────┘    └─────────────┘    └──────────────┘
+                      ↓
+              ┌─────────────┐
+              │  Role-Based │
+              │  Access     │
+              │  Control    │
+              └─────────────┘
+```
+
+### Access Control
+
+| Endpoint | Admin | Employer | User |
+|----------|-------|----------|------|
+| `/api/admin/*` | ✅ | ❌ | ❌ |
+| `/api/employer/*` | ✅ | ✅ | ❌ |
+| `/api/user/*` | ✅ | ✅ | ✅ |
+
+---
+
+## 📊 Database Schema
+
+```sql
+-- Core Tables
+users          -- User authentication & profile
+employers      -- Company information
+roles          -- System roles (ADMIN, EMPLOYER, USER)
+jobs           -- Job postings
+applications   -- Job applications
+skills         -- Skill definitions
+user_skills    -- User skill associations
+job_skills     -- Job skill requirements
+
+-- Relationships
+users ──1:1── employers
+users ──N:1── roles
+jobs ──1:N── applications
+users ──1:N── applications
+```
+
+---
+
+## 🛠️ API Endpoints
+
+### Authentication
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/auth/register/user` | Register candidate |
+| POST | `/api/auth/register/employer/step1` | Employer registration (step 1) |
+| POST | `/api/auth/register/employer/step2` | Employer registration (step 2) |
+| POST | `/api/auth/login` | User login |
+| GET | `/api/auth/check-email` | Check email availability |
+
+### Admin
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/admin/stats` | Dashboard statistics |
+
+---
+
+## 🔄 Development Workflow
+
 ```bash
-mvnw.cmd spring-boot:run
-```
+# Build project
+mvn clean package
 
-### 4. Truy cập ứng dụng
+# Run tests
+mvn test
 
-| Dịch vụ | URL |
-|---------|-----|
-| Ứng dụng chính | `http://localhost:8083` |
-| PhpMyAdmin | `http://localhost:8086` |
+# Start database
+docker-compose up -d
 
-### Tài khoản mặc định
+# Run application
+mvn spring-boot:run
 
-| Vai trò | Email | Mật khẩu |
-|---------|-------|-----------|
-| Admin | `admin@careerviet.vn` | `admin123` |
-
-> Tài khoản admin được tạo tự động khi khởi chạy lần đầu thông qua `DataInitializer`.
-
----
-
-## Cấu Trúc Dự Án
-
-```
-Nhom08-QLTD/
-├── src/
-│   └── main/
-│       ├── java/Nhom08/Project/
-│       │   ├── QltdApplication.java          # Entry point
-│       │   ├── config/
-│       │   │   └── SecurityConfig.java       # Spring Security configuration
-│       │   ├── controller/
-│       │   │   ├── AuthController.java       # Authentication API
-│       │   │   ├── UserController.java       # User profile API
-│       │   │   ├── AdminController.java      # Admin API
-│       │   │   └── PageController.java       # Page routing
-│       │   ├── dto/
-│       │   │   ├── LoginDTO.java
-│       │   │   ├── UserRegisterDTO.java
-│       │   │   ├── EmployerRegisterStep1DTO.java
-│       │   │   └── EmployerRegisterStep2DTO.java
-│       │   ├── entity/
-│       │   │   ├── User.java                 # User entity
-│       │   │   ├── Role.java                 # Role entity
-│       │   │   └── Employer.java             # Employer entity
-│       │   ├── repository/
-│       │   │   ├── UserRepository.java
-│       │   │   ├── RoleRepository.java
-│       │   │   └── EmployerRepository.java
-│       │   └── service/
-│       │       ├── AuthService.java          # Authentication logic
-│       │       ├── CustomUserDetailsService.java
-│       │       └── DataInitializer.java      # Seed data on startup
-│       └── resources/
-│           ├── application.properties        # App configuration
-│           ├── static/                       # Frontend assets
-│           │   ├── css/                      # Stylesheets
-│           │   ├── js/                       # JavaScript
-│           │   ├── images/                   # Images & logos
-│           │   ├── fonts/                    # Custom fonts
-│           │   ├── includes/                 # Reusable HTML components
-│           │   ├── admin/                    # Admin pages
-│           │   └── *.html                    # Main pages
-│           └── templates/
-│               └── 403.html                  # Error page
-├── docker-compose.yml                        # Docker services
-├── pom.xml                                   # Maven dependencies
-└── README.md
+# View logs
+docker-compose logs -f mysql
 ```
 
 ---
 
-## API Endpoints
+## 🤝 Contributing
 
-### Authentication (`/api/auth`)
-
-| Method | Endpoint | Mô tả | Auth |
-|--------|----------|--------|------|
-| `GET` | `/api/auth/check-email?email={email}` | Kiểm tra email khả dụng | Public |
-| `POST` | `/api/auth/register/user` | Đăng ký ứng viên | Public |
-| `POST` | `/api/auth/register/employer/step1` | Đăng ký NTD — Bước 1 | Public |
-| `POST` | `/api/auth/register/employer/step2` | Đăng ký NTD — Bước 2 | Public |
-| `POST` | `/api/auth/login` | Đăng nhập | Public |
-
-### User (`/api/user`)
-
-| Method | Endpoint | Mô tả | Auth |
-|--------|----------|--------|------|
-| `GET` | `/api/user/me` | Lấy thông tin user hiện tại | Public |
-
-### Admin (`/api/admin`)
-
-| Method | Endpoint | Mô tả | Auth |
-|--------|----------|--------|------|
-| `GET` | `/api/admin/stats` | Thống kê hệ thống | ROLE_ADMIN |
+1. Fork the repository
+2. Create feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to branch (`git push origin feature/AmazingFeature`)
+5. Open Pull Request
 
 ---
 
-## Phân Quyền
+## 📄 License
 
-Hệ thống sử dụng **Spring Security** với 3 vai trò:
-
-| Vai trò | Mã | Quyền truy cập |
-|---------|------|----------------|
-| Quản trị viên | `ROLE_ADMIN` | `/admin/**`, `/api/admin/**` |
-| Nhà tuyển dụng | `ROLE_EMPLOYER` | `/dashboard.html`, `/quan-ly-*.html`, `/employer/**` |
-| Ứng viên | `ROLE_USER` | `/profile/**`, `/my-applications/**` |
-
-Các trang công khai (trang chủ, tìm việc, đăng ký, đăng nhập) không yêu cầu xác thực.
+This project is licensed under the MIT License.
 
 ---
 
-## Giao Diện
+## 👨‍💻 Development Team
 
-| Trang | Đường dẫn | Mô tả |
-|-------|-----------|--------|
-| Trang chủ | `/index.html` | Banner, tìm kiếm, danh sách việc làm nổi bật |
-| Tìm việc làm | `/tim-viec-lam.html` | Tìm kiếm nâng cao với bộ lọc |
-| Nhà tuyển dụng | `/nha-tuyen-dung.html` | Landing page cho NTD |
-| Đăng ký ứng viên | `/candidate-register.html` | Form đăng ký 1 bước |
-| Đăng ký NTD | `/employer-register.html` | Form đăng ký 2 bước |
-| Đăng nhập NTD | `/employer-login.html` | Đăng nhập nhà tuyển dụng |
-| Dashboard NTD | `/dashboard.html` | Tổng quan tuyển dụng |
-| Quản lý đăng tuyển | `/quan-ly-dang-tuyen.html` | CRUD tin tuyển dụng |
-| Quản lý ứng viên | `/quan-ly-ung-vien.html` | Quản lý hồ sơ ứng tuyển |
-| Chấm điểm CV | `/cham-diem-cv.html` | AI đánh giá CV |
-| Tạo CV AI | `/tao-cv-ai.html` | Tạo CV với trợ lý AI |
-| Chỉnh sửa CV | `/cv-editor.html` | Editor CV trực tuyến |
-| Admin Dashboard | `/admin/dashboard.html` | Thống kê hệ thống |
+**Team 08 (Nhom08)** - Job Management System
+
+*Spring Boot • MySQL • AI-Powered Recruitment*
 
 ---
 
-## Thành Viên Nhóm
+<div align="center">
 
-| STT | Họ và Tên | MSSV | Vai trò |
-|-----|-----------|------|---------|
-| 1 | | | |
-| 2 | | | |
-| 3 | | | |
-| 4 | | | |
+**Built with ❤️ for smarter hiring**
 
-> **Nhóm 08** — Môn Quản Lý Tuyển Dụng
-
----
-
-## License
-
-Dự án được phát triển phục vụ mục đích học tập.
-
----
-
-<p align="center">
-  <b>CareerViet</b> &copy; 2025 — Nhóm 08
-</p>
+</div>
