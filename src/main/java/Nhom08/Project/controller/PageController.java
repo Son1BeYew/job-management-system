@@ -20,4 +20,28 @@ public class PageController {
     public String accessDenied() {
         return "403";
     }
+
+    /**
+     * Trang đăng tuyển dụng
+     */
+    @GetMapping("/quan-ly-dang-tuyen/post-job")
+    public String postJob() {
+        return "redirect:/post-job.html";
+    }
+
+    /**
+     * Trang quản lý đăng tuyển
+     */
+    @GetMapping("/quan-ly-dang-tuyen")
+    public String manageJobs() {
+        return "redirect:/quan-ly-dang-tuyen.html";
+    }
+
+    /**
+     * Trang quản lý ứng viên
+     */
+    @GetMapping("/quan-ly-ung-vien")
+    public String manageCandidates() {
+        return "redirect:/quan-ly-ung-vien.html";
+    }
 }

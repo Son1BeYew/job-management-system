@@ -39,11 +39,11 @@ public class AdminController {
         
         // Users by role
         long adminCount = userRepository.findByRoleName(Role.ADMIN).size();
-        long userCount = userRepository.findByRoleName(Role.USER).size();
+        long candidateCount = userRepository.findByRoleName(Role.CANDIDATE).size();
         long employerUserCount = userRepository.findByRoleName(Role.EMPLOYER).size();
         
         stats.put("adminCount", adminCount);
-        stats.put("userCount", userCount);
+        stats.put("candidateCount", candidateCount);
         stats.put("employerUserCount", employerUserCount);
         
         return ResponseEntity.ok(stats);

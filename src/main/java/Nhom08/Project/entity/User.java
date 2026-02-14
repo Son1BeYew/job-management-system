@@ -156,7 +156,7 @@ public class User {
         return role != null && Role.EMPLOYER.equals(role.getName());
     }
 
-    public boolean isUser() {
-        return role != null && Role.USER.equals(role.getName());
+    public boolean isCandidate() {
+        return role != null && Role.CANDIDATE.equals(role.getName());
     }
 }

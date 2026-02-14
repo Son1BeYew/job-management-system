@@ -80,7 +80,9 @@
 <script>
 (function() {
     // Fetch current user info
-    fetch('/api/user/me')
+    fetch('/api/user/me', {
+        credentials: 'include'
+    })
         .then(response => response.json())
         .then(data => {
             const displayNameEl = document.getElementById('userDisplayName');
