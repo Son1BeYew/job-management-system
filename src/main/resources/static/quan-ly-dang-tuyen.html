@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/dashboard.css">
     <link rel="stylesheet" href="css/job-management.css">
+    <!-- SheetJS for Excel export -->
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
 </head>
 <body>
     <!-- Header Placeholder -->
@@ -45,7 +47,7 @@
                     </svg>
                     TÌM HỒ SƠ
                 </a>
-                <a href="/quan-ly-dang-tuyen/post-job" class="btn-sub-nav btn-post" style="text-decoration: none;">
+                <a href="post-job.html" class="btn-sub-nav btn-post" style="text-decoration: none;">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                         <polyline points="14 2 14 8 20 8"></polyline>
@@ -64,7 +66,7 @@
             <div class="page-header">
                 <h1 class="page-title">Quản Lý Tuyển Dụng</h1>
                 <div class="page-actions">
-                    <a href="/quan-ly-dang-tuyen/post-job" class="btn-create-job" style="text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem;">
+                    <a href="post-job.html" class="btn-create-job" style="text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem;">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <line x1="12" y1="5" x2="12" y2="19"></line>
                             <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -121,10 +123,10 @@
 
             <!-- Status Tabs -->
             <div class="status-tabs">
-                <button class="status-tab active">Việc Làm Đang Đăng</button>
-                <button class="status-tab">Việc Làm Chờ Đăng</button>
-                <button class="status-tab">Việc Làm Tạm Dừng Đăng</button>
-                <button class="status-tab">Việc Làm Hết Hạn</button>
+                <button class="status-tab active" data-status="ACTIVE" id="tab-active">Việc Làm Đang Đăng <span class="tab-count" id="count-active"></span></button>
+                <button class="status-tab" data-status="DRAFT" id="tab-draft">Việc Làm Chờ Đăng <span class="tab-count" id="count-draft"></span></button>
+                <button class="status-tab" data-status="PAUSED" id="tab-paused">Việc Làm Tạm Dừng Đăng <span class="tab-count" id="count-paused"></span></button>
+                <button class="status-tab" data-status="CLOSED" id="tab-closed">Việc Làm Hết Hạn <span class="tab-count" id="count-closed"></span></button>
             </div>
 
             <!-- Action Buttons -->
@@ -190,18 +192,8 @@
                             <th class="col-actions">THAO TÁC</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td colspan="8" class="empty-state">
-                                <div class="empty-content">
-                                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                        <path d="M9 11l3 3L22 4"></path>
-                                        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
-                                    </svg>
-                                    <p>Không có vị trí nào trong thư mục này.</p>
-                                </div>
-                            </td>
-                        </tr>
+                    <tbody id="jobTableBody">
+                        <!-- Loaded by JS -->
                     </tbody>
                 </table>
             </div>
@@ -217,5 +209,379 @@
     </a>
 
     <script src="js/employer.js"></script>
-</body>
-</html>
+    <script>
+    // ===================================================
+    // QUAN LY DANG TUYEN - Job Management Script
+    // ===================================================
+
+    let allJobs = [];
+    let currentStatus = 'ACTIVE';
+
+    // Format date: "2026-03-31" -> "31/03/2026"
+    function formatDate(dateStr) {
+        if (!dateStr) return '—';
+        const [y, m, d] = dateStr.split('-');
+        return `${d}/${m}/${y}`;
+    }
+
+    // Format salary
+    function formatSalary(min, max, currency) {
+        if (!min && !max) return 'Thỏa thuận';
+        const fmt = (n) => (n / 1_000_000).toFixed(0) + ' Tr';
+        const cur = currency === 'USD' ? '$' : 'VNĐ';
+        if (min && max) return `${fmt(min)} - ${fmt(max)} ${cur}`;
+        if (min) return `Từ ${fmt(min)} ${cur}`;
+        return `Đến ${fmt(max)} ${cur}`;
+    }
+
+    // Badge status
+    function statusBadge(status, deadline) {
+        const today = new Date();
+        const dl = deadline ? new Date(deadline) : null;
+        if (dl && dl < today && status === 'ACTIVE') return { label: 'Hết hạn', cls: 'badge-closed' };
+        const map = {
+            'ACTIVE':  { label: 'Đang đăng', cls: 'badge-active' },
+            'DRAFT':   { label: 'Chờ đăng',  cls: 'badge-draft'  },
+            'PAUSED':  { label: 'Tạm dừng', cls: 'badge-paused' },
+            'CLOSED':  { label: 'Hết hạn',   cls: 'badge-closed' },
+        };
+        return map[status] || { label: status, cls: '' };
+    }
+
+    // Render table rows
+    function renderJobs(jobs) {
+        const tbody = document.getElementById('jobTableBody');
+        if (!jobs || jobs.length === 0) {
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="8" class="empty-state">
+                        <div class="empty-content">
+                            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.5">
+                                <path d="M9 11l3 3L22 4"></path>
+                                <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                            </svg>
+                            <p>Không có vị trí nào trong thư mục này.</p>
+                            <a href="post-job.html" style="margin-top:12px;display:inline-block;padding:10px 20px;background:#e84141;color:#fff;border-radius:6px;text-decoration:none;font-weight:600;">+ Đăng tin mới</a>
+                        </div>
+                    </td>
+                </tr>`;
+            return;
+        }
+
+        tbody.innerHTML = jobs.map(job => {
+            const { label, cls } = statusBadge(job.status, job.deadline);
+            const createdDate = job.createdAt ? formatDate(job.createdAt.split('T')[0]) : '—';
+            const deadlineDate = formatDate(job.deadline);
+            const salary = formatSalary(job.salaryMin, job.salaryMax, job.currency);
+            const isExpired = job.deadline && new Date(job.deadline) < new Date();
+
+            return `
+            <tr class="job-row ${isExpired ? 'row-expired' : ''}" data-id="${job.id}">
+                <td class="col-checkbox"><input type="checkbox" class="job-checkbox" value="${job.id}"></td>
+                <td class="col-title">
+                    <div class="job-title-cell">
+                        <a href="#" class="job-title-link">${job.title}</a>
+                        <div class="job-meta">
+                            <span class="job-location"> ${job.location}</span>
+                            <span class="job-salary"> ${salary}</span>
+                            ${job.urgentRecruitment ? '<span class="badge-urgent">URGENT</span>' : ''}
+                        </div>
+                        <span class="status-badge ${cls}">${label}</span>
+                    </div>
+                </td>
+                <td class="col-date">${createdDate}</td>
+                <td class="col-date ${isExpired ? 'text-danger' : ''}">${deadlineDate}</td>
+                <td class="col-views">—</td>
+                <td class="col-applies">0</td>
+                <td class="col-cvs">—</td>
+                <td class="col-actions">
+                    <div class="action-btns">
+                        <a href="post-job.html?edit=${job.id}" class="btn-act btn-edit" title="Chỉnh sửa">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                        </a>
+                        <button class="btn-act btn-delete" title="Xóa" onclick="deleteJob(${job.id}, '${job.title.replace(/'/g, "\\'")}')"> 
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6"></path><path d="M14 11v6"></path><path d="M9 6V4h6v2"></path></svg>
+                        </button>
+                    </div>
+                </td>
+            </tr>`;
+        }).join('');
+    }
+
+    // Filter by current tab status
+    function filterAndRender(status) {
+        currentStatus = status;
+        const today = new Date();
+        let filtered;
+
+        if (status === 'CLOSED') {
+            // Hết hạn = deadline đã qua hoặc status CLOSED
+            filtered = allJobs.filter(j =>
+                j.status === 'CLOSED' || (j.deadline && new Date(j.deadline) < today)
+            );
+        } else if (status === 'ACTIVE') {
+            filtered = allJobs.filter(j =>
+                j.status === 'ACTIVE' && (!j.deadline || new Date(j.deadline) >= today)
+            );
+        } else {
+            filtered = allJobs.filter(j => j.status === status);
+        }
+
+        renderJobs(filtered);
+    }
+
+    // Update tab counts
+    function updateCounts() {
+        const today = new Date();
+        const counts = {
+            'ACTIVE': allJobs.filter(j => j.status === 'ACTIVE' && (!j.deadline || new Date(j.deadline) >= today)).length,
+            'DRAFT':  allJobs.filter(j => j.status === 'DRAFT').length,
+            'PAUSED': allJobs.filter(j => j.status === 'PAUSED').length,
+            'CLOSED': allJobs.filter(j => j.status === 'CLOSED' || (j.deadline && new Date(j.deadline) < today)).length,
+        };
+        Object.entries(counts).forEach(([status, count]) => {
+            const el = document.getElementById(`count-${status.toLowerCase()}`);
+            if (el) el.textContent = count > 0 ? `(${count})` : '';
+        });
+    }
+
+    // Delete job
+    async function deleteJob(jobId, title) {
+        if (!confirm(`Bạn có chắc muốn xóa tin "${title}"?`)) return;
+        try {
+            const resp = await fetch(`/api/jobs/${jobId}`, {
+                method: 'DELETE',
+                credentials: 'include'
+            });
+            const result = await resp.json();
+            if (resp.ok && result.success) {
+                allJobs = allJobs.filter(j => j.id !== jobId);
+                updateCounts();
+                filterAndRender(currentStatus);
+                showToast('Đã xóa tin tuyển dụng thành công', 'success');
+            } else {
+                showToast(result.error || 'Không thể xóa tin', 'error');
+            }
+        } catch (e) {
+            showToast('Lỗi kết nối. Vui lòng thử lại.', 'error');
+        }
+    }
+
+    // Toast
+    function showToast(msg, type) {
+        const t = document.createElement('div');
+        t.style.cssText = `position:fixed;top:20px;right:20px;z-index:9999;padding:12px 20px;
+            border-radius:8px;font-weight:600;font-size:14px;color:#fff;
+            background:${type==='success'?'#1a8c5b':'#dc3545'};
+            box-shadow:0 4px 16px rgba(0,0,0,.2);animation:fadeIn .3s ease;`;
+        t.textContent = msg;
+        document.body.appendChild(t);
+        setTimeout(() => t.remove(), 3500);
+    }
+
+    // Load jobs from API
+    async function loadMyJobs() {
+        const tbody = document.getElementById('jobTableBody');
+        tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:40px;color:#999;">⏳ Đang tải dữ liệu...</td></tr>`;
+
+        try {
+            const resp = await fetch('/api/jobs/my-jobs', { credentials: 'include' });
+
+            if (resp.status === 403 || resp.status === 401) {
+                tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:40px;color:#dc3545;">
+                    🔒 Vui lòng <a href="employer-login.html">đăng nhập</a> để xem tin tuyển dụng.</td></tr>`;
+                return;
+            }
+
+            if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+
+            allJobs = await resp.json();
+            updateCounts();
+            filterAndRender(currentStatus);
+
+        } catch (err) {
+            console.error('Error loading jobs:', err);
+            tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:40px;color:#dc3545;">
+                ❌ Không thể tải dữ liệu. <button onclick="loadMyJobs()" style="margin-left:8px;padding:6px 14px;border:1px solid #dc3545;border-radius:4px;cursor:pointer;background:#fff;color:#dc3545;">Thử lại</button></td></tr>`;
+        }
+    }
+
+    // Tab switching
+    document.querySelectorAll('.status-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            document.querySelectorAll('.status-tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            filterAndRender(tab.dataset.status);
+        });
+    });
+
+    // Select all checkbox
+    const selectAll = document.getElementById('selectAll');
+    if (selectAll) {
+        selectAll.addEventListener('change', () => {
+            document.querySelectorAll('.job-checkbox').forEach(cb => cb.checked = selectAll.checked);
+        });
+    }
+
+    // Search filter
+    const filterKeyword = document.querySelector('.filter-input');
+    const filterBtn = document.querySelector('.btn-filter-search');
+    if (filterBtn && filterKeyword) {
+        filterBtn.addEventListener('click', () => {
+            const kw = filterKeyword.value.trim().toLowerCase();
+            if (!kw) { filterAndRender(currentStatus); return; }
+            const filtered = allJobs.filter(j =>
+                j.title.toLowerCase().includes(kw) ||
+                (j.location || '').toLowerCase().includes(kw)
+            );
+            renderJobs(filtered);
+        });
+        filterKeyword.addEventListener('keypress', e => {
+            if (e.key === 'Enter') filterBtn.click();
+        });
+    }
+
+    // Inject extra styles for job table
+    const style = document.createElement('style');
+    style.textContent = `
+        .job-title-link { color: #1a1a2e; font-weight: 600; text-decoration: none; font-size: 14px; }
+        .job-title-link:hover { color: #e84141; }
+        .job-meta { display: flex; gap: 10px; margin-top: 5px; font-size: 12px; color: #666; flex-wrap: wrap; align-items: center; }
+        .job-meta span { white-space: nowrap; }
+        .status-badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; margin-top: 5px; }
+        .badge-active { background: #d4edda; color: #155724; }
+        .badge-draft  { background: #fff3cd; color: #856404; }
+        .badge-paused { background: #f8d7da; color: #721c24; }
+        .badge-closed { background: #e2e3e5; color: #495057; }
+        .badge-urgent { background: #dc3545; color: #fff; padding: 1px 6px; border-radius: 4px; font-size: 10px; font-weight: 700; }
+        .tab-count { font-size: 12px; opacity: 0.75; margin-left: 3px; }
+        .row-expired td { opacity: 0.75; }
+        .text-danger { color: #dc3545 !important; font-weight: 600; }
+        .action-btns { display: flex; gap: 6px; justify-content: center; align-items: center; }
+        .btn-act { width: 30px; height: 30px; border-radius: 6px; border: 1px solid #dee2e6;
+            display: inline-flex; align-items: center; justify-content: center;
+            cursor: pointer; background: #fff; text-decoration: none; color: #666;
+            transition: all .18s; flex-shrink: 0; }
+        .btn-edit:hover { border-color: #0d6efd; color: #0d6efd; background: #e7f1ff; }
+        .btn-delete:hover { border-color: #dc3545; color: #dc3545; background: #fdecea; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+    `;
+    document.head.appendChild(style);
+
+    // Init on load
+    document.addEventListener('DOMContentLoaded', () => {
+        loadMyJobs();
+
+        // Nút Xuất file job
+        const btnExport = document.querySelector('.btn-export');
+        if (btnExport) {
+            btnExport.addEventListener('click', () => exportToExcel(allJobs, 'Tất cả'));
+        }
+    });
+
+    // ===== EXPORT EXCEL =====
+    function exportToExcel(jobs, label) {
+        if (!jobs || jobs.length === 0) {
+            showToast('Không có dữ liệu để xuất!', 'error');
+            return;
+        }
+
+        if (typeof XLSX === 'undefined') {
+            showToast('Thư viện Excel chưa tải xong. Vui lòng thử lại.', 'error');
+            return;
+        }
+
+        // Map jobs → rows
+        const rows = jobs.map((job, idx) => {
+            const today = new Date();
+            const dl = job.deadline ? new Date(job.deadline) : null;
+            const isExpired = dl && dl < today;
+            let statusLabel = { 'ACTIVE': 'Đang đăng', 'DRAFT': 'Chờ đăng', 'PAUSED': 'Tạm dừng', 'CLOSED': 'Hết hạn' }[job.status] || job.status;
+            if (isExpired && job.status === 'ACTIVE') statusLabel = 'Hết hạn';
+
+            const salaryMin = job.salaryMin ? (job.salaryMin / 1_000_000).toFixed(1) + ' Tr' : '—';
+            const salaryMax = job.salaryMax ? (job.salaryMax / 1_000_000).toFixed(1) + ' Tr' : '—';
+
+            return {
+                'STT':              idx + 1,
+                'Chức Danh':        job.title || '',
+                'Địa Điểm':         job.location || '',
+                'Lương Tối Thiểu':  salaryMin,
+                'Lương Tối Đa':     salaryMax,
+                'Tiền Tệ':          job.currency || 'VND',
+                'Ngày Đăng':        job.createdAt ? job.createdAt.split('T')[0] : '',
+                'Hạn Nộp':          job.deadline || '',
+                'Trạng Thái':       statusLabel,
+                'Kinh Nghiệm':      job.experience || '',
+                'Loại Hình':        job.employmentType || '',
+                'Urgent':           job.urgentRecruitment ? 'Có' : 'Không',
+                'Mô Tả':            job.description || '',
+            };
+        });
+
+        const ws = XLSX.utils.json_to_sheet(rows);
+
+        // Style header row (row 1)
+        const range = XLSX.utils.decode_range(ws['!ref']);
+        const headerStyle = {
+            font:      { bold: true, color: { rgb: 'FFFFFF' }, sz: 11 },
+            fill:      { fgColor: { rgb: '1a3a6b' } },
+            alignment: { horizontal: 'center', vertical: 'center', wrapText: false },
+            border: {
+                top:    { style: 'thin', color: { rgb: 'FFFFFF' } },
+                bottom: { style: 'thin', color: { rgb: 'FFFFFF' } },
+                left:   { style: 'thin', color: { rgb: 'FFFFFF' } },
+                right:  { style: 'thin', color: { rgb: 'FFFFFF' } },
+            }
+        };
+
+        for (let col = range.s.c; col <= range.e.c; col++) {
+            const cellAddr = XLSX.utils.encode_cell({ r: 0, c: col });
+            if (ws[cellAddr]) ws[cellAddr].s = headerStyle;
+        }
+
+        // Row striping style
+        const evenStyle = { fill: { fgColor: { rgb: 'F0F4FF' } } };
+        for (let row = 1; row <= range.e.r; row++) {
+            if (row % 2 === 0) {
+                for (let col = range.s.c; col <= range.e.c; col++) {
+                    const addr = XLSX.utils.encode_cell({ r: row, c: col });
+                    if (ws[addr]) ws[addr].s = evenStyle;
+                }
+            }
+        }
+
+        // Auto column widths
+        ws['!cols'] = [
+            { wch: 5  },   // STT
+            { wch: 35 },   // Chức danh
+            { wch: 22 },   // Địa điểm
+            { wch: 15 },   // Lương min
+            { wch: 15 },   // Lương max
+            { wch: 8  },   // Tiền tệ
+            { wch: 13 },   // Ngày đăng
+            { wch: 13 },   // Hạn nộp
+            { wch: 12 },   // Trạng thái
+            { wch: 15 },   // Kinh nghiệm
+            { wch: 15 },   // Loại hình
+            { wch: 8  },   // Urgent
+            { wch: 50 },   // Mô tả
+        ];
+
+        // Freeze header row
+        ws['!freeze'] = { xSplit: 0, ySplit: 1 };
+
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Tin Tuyển Dụng');
+
+        // Filename: CareerViet_Jobs_23-02-2026.xlsx
+        const today = new Date();
+        const dd    = String(today.getDate()).padStart(2, '0');
+        const mm    = String(today.getMonth() + 1).padStart(2, '0');
+        const yyyy  = today.getFullYear();
+        const filename = `CareerViet_Jobs_${dd}-${mm}-${yyyy}.xlsx`;
+
+        XLSX.writeFile(wb, filename);
+        showToast(`✅ Đã xuất ${jobs.length} tin tuyển dụng ra file Excel!`, 'success');
+    }
+    </script>

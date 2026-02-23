@@ -256,14 +256,25 @@
 }
 
 .job-table th {
-    padding: 16px 12px;
+    padding: 14px 12px;
     text-align: left;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 700;
-    color: var(--text-dark);
+    color: #6c757d;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.6px;
     border-bottom: 2px solid var(--light-gray);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.job-table th.col-date,
+.job-table th.col-views,
+.job-table th.col-applies,
+.job-table th.col-cvs,
+.job-table th.col-actions {
+    text-align: center;
 }
 
 .job-table th.sortable {
@@ -283,38 +294,51 @@
 }
 
 .job-table td {
-    padding: 16px 12px;
+    padding: 14px 12px;
     font-size: 14px;
     color: var(--text-dark);
-    border-bottom: 1px solid var(--light-gray);
+    border-bottom: 1px solid #f0f0f0;
+    vertical-align: middle;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.job-table tr:last-child td {
+    border-bottom: none;
+}
+
+.job-table tbody tr:hover {
+    background: #fafcff;
 }
 
 .col-checkbox {
-    width: 50px;
+    width: 44px;
     text-align: center;
 }
 
 .col-title {
-    min-width: 250px;
+    min-width: 280px;
 }
 
 .col-date {
-    width: 120px;
+    width: 105px;
+    text-align: center;
+    white-space: nowrap;
 }
 
 .col-views,
 .col-applies {
-    width: 100px;
+    width: 85px;
     text-align: center;
 }
 
 .col-cvs {
-    width: 100px;
+    width: 80px;
     text-align: center;
 }
 
 .col-actions {
-    width: 120px;
+    width: 90px;
     text-align: center;
 }
 
