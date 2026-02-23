@@ -1,11 +1,8 @@
 package Nhom08.Project.controller;
 
 import Nhom08.Project.dto.JobCreateDTO;
-import Nhom08.Project.entity.Employer;
-import Nhom08.Project.entity.Job;
-import Nhom08.Project.entity.User;
-import Nhom08.Project.repository.EmployerRepository;
-import Nhom08.Project.repository.UserRepository;
+import Nhom08.Project.entity.*;
+import Nhom08.Project.repository.*;
 import Nhom08.Project.service.JobService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,19 +14,21 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/jobs")
 public class JobController {
 
-    @Autowired
-    private JobService jobService;
-
-    @Autowired
-    private EmployerRepository employerRepository;
-    
-    @Autowired
-    private UserRepository userRepository;
+    @Autowired private JobService              jobService;
+    @Autowired private EmployerRepository      employerRepository;
+    @Autowired private UserRepository          userRepository;
+    @Autowired private IndustryRepository      industryRepository;
+    @Autowired private ExperienceLevelRepository experienceLevelRepository;
+    @Autowired private EducationLevelRepository  educationLevelRepository;
+    @Autowired private DegreeLevelRepository     degreeLevelRepository;
+    @Autowired private JobBenefitRepository      jobBenefitRepository;
+    @Autowired private ProvinceRepository        provinceRepository;
 
     /**
      * Get employer info for auto-fill
@@ -192,7 +191,34 @@ public class JobController {
         List<Job> jobs = jobService.searchJobs(keyword);
         return ResponseEntity.ok(jobs);
     }
-    
+
+    /**
+     * Get form dropdown options from DB (separate tables)
+     * Public endpoint - no auth required
+     */
+    @GetMapping("/form-options")
+    public ResponseEntity<Map<String, Object>> getFormOptions() {
+        Map<String, Object> options = new HashMap<>();
+
+        options.put("industries",      toMap(industryRepository.findByActiveTrueOrderBySortOrderAsc()));
+        options.put("experiences",     toMap(experienceLevelRepository.findByActiveTrueOrderBySortOrderAsc()));
+        options.put("educationLevels", toMap(educationLevelRepository.findByActiveTrueOrderBySortOrderAsc()));
+        options.put("degreeLevels",    toMap(degreeLevelRepository.findByActiveTrueOrderBySortOrderAsc()));
+        options.put("benefits",        toMap(jobBenefitRepository.findByActiveTrueOrderBySortOrderAsc()));
+        options.put("provinces",
+            provinceRepository.findByActiveTrueOrderBySortOrderAsc()
+                .stream().map(BaseOption::getValue).collect(Collectors.toList())
+        );
+
+        return ResponseEntity.ok(options);
+    }
+
+    private <T extends BaseOption> List<Map<String, String>> toMap(List<T> list) {
+        return list.stream()
+            .map(o -> Map.of("value", o.getValue(), "label", o.getLabel()))
+            .collect(Collectors.toList());
+    }
+
     /**
      * Helper: Get current authenticated user
      */

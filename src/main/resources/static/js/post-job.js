@@ -58,7 +58,6 @@ async function loadEmployerInfo() {
         const response = await fetch('/api/jobs/employer-info', { credentials: 'include' });
 
         if (response.status === 403) {
-            // Chưa đăng nhập hoặc không phải employer
             showToast('Vui lòng đăng nhập với tài khoản nhà tuyển dụng.', 'error');
             setTimeout(() => { window.location.href = '/employer-login.html'; }, 2000);
             return;
@@ -73,6 +72,56 @@ async function loadEmployerInfo() {
         }
     } catch (error) {
         console.error('Lỗi kết nối khi tải thông tin công ty:', error);
+    }
+}
+
+
+// ===== LOAD FORM OPTIONS FROM API =====
+async function loadFormOptions() {
+    try {
+        const res = await fetch('/api/jobs/form-options');
+        if (!res.ok) throw new Error('Cannot load form options');
+        const opts = await res.json();
+
+        // Populate select helper
+        function populateSelect(id, items, placeholder) {
+            const sel = document.getElementById(id);
+            if (!sel) return;
+            sel.innerHTML = `<option value="">${placeholder}</option>` +
+                items.map(i => `<option value="${i.value}">${i.label}</option>`).join('');
+        }
+
+        populateSelect('industry',       opts.industries,      'Chọn ngành nghề');
+        populateSelect('experience',     opts.experiences,     'Chọn kinh nghiệm');
+        populateSelect('educationLevel', opts.educationLevels, 'Chọn cấp bậc');
+        populateSelect('degreeLevel',    opts.degreeLevels,    'Không yêu cầu bằng cấp');
+
+        // Populate datalist for location
+        const dl = document.getElementById('provinceList');
+        if (dl && opts.provinces) {
+            dl.innerHTML = opts.provinces.map(p => `<option value="${p}">`).join('');
+        }
+
+        // Render benefits checkboxes dynamically
+        const grid = document.getElementById('benefitsGrid');
+        if (grid && opts.benefits) {
+            grid.innerHTML = opts.benefits.map(b => `
+                <label class="checkbox-label">
+                    <input type="checkbox" name="benefits" value="${b.value}"> ${b.label}
+                </label>
+            `).join('');
+        }
+
+    } catch (err) {
+        console.warn('Không tải được form-options, dùng fallback:', err);
+        // Fallback nếu API lỗi
+        const sel = document.getElementById('industry');
+        if (sel) sel.innerHTML = `
+            <option value="">Chọn ngành nghề</option>
+            <option value="CNTT">Công nghệ thông tin</option>
+            <option value="Marketing">Marketing</option>
+            <option value="Kinh doanh">Kinh doanh</option>
+        `;
     }
 }
 
@@ -204,8 +253,9 @@ document.addEventListener('DOMContentLoaded', () => {
         deadlineInput.min = new Date().toISOString().split('T')[0];
     }
 
-    // Load employer info
+    // Load employer info & form options concurrently
     loadEmployerInfo();
+    loadFormOptions();
 
     // Editor toolbar (simple)
     document.querySelectorAll('.btn-editor').forEach(btn => {
