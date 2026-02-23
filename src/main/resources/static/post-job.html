@@ -106,18 +106,14 @@
                     <div class="form-group">
                         <label for="industry">Ngành nghề* <span class="tooltip">ℹ</span></label>
                         <select id="industry" name="industry" required>
-                            <option value="">Chọn ngành nghề</option>
-                            <option value="CNTT">Công nghệ thông tin</option>
-                            <option value="Marketing">Marketing</option>
-                            <option value="Kinh doanh">Kinh doanh</option>
-                            <option value="Kế toán">Kế toán</option>
-                            <option value="Nhân sự">Nhân sự</option>
+                            <option value="">Đang tải...</option>
                         </select>
                     </div>
                     
                     <div class="form-group">
                         <label for="location">Nơi làm việc*</label>
-                        <input type="text" id="location" name="location" placeholder="VD: Thủ Đức, TP.HCM" required>
+                        <input type="text" id="location" name="location" placeholder="VD: Thủ Đức, TP.HCM" required list="provinceList" autocomplete="off">
+                        <datalist id="provinceList"></datalist>
                         <label class="checkbox-label">
                             <input type="checkbox" id="hideLocation" name="hideLocation">
                             <span>Bảo mật địa điểm làm việc</span>
@@ -193,16 +189,16 @@
                     <label>Hình thức*</label>
                     <div class="checkbox-group checkbox-group-horizontal">
                         <label class="checkbox-label">
-                            <input type="checkbox" name="benefits" value="bao-hiem"> Nhân viên chính thức
+                            <input type="checkbox" name="employmentType" value="chinh-thuc"> Nhân viên chính thức
                         </label>
                         <label class="checkbox-label">
-                            <input type="checkbox" name="benefits" value="ban-thoi-gian"> Bán thời gian
+                            <input type="checkbox" name="employmentType" value="ban-thoi-gian"> Bán thời gian
                         </label>
                         <label class="checkbox-label">
-                            <input type="checkbox" name="benefits" value="thoi-vu"> Thời vụ - Nghề tự do
+                            <input type="checkbox" name="employmentType" value="thoi-vu"> Thời vụ - Nghề tự do
                         </label>
                         <label class="checkbox-label">
-                            <input type="checkbox" name="benefits" value="thuc-tap"> Thực tập
+                            <input type="checkbox" name="employmentType" value="thuc-tap"> Thực tập
                         </label>
                     </div>
                 </div>
@@ -263,34 +259,8 @@
             <section class="form-section">
                 <h2 class="section-title">PHÚC LỢI</h2>
                 
-                <div class="benefits-grid">
-                    <label class="checkbox-label">
-                        <input type="checkbox" name="benefits" value="bao-hiem"> Chế độ bảo hiểm
-                    </label>
-                    <label class="checkbox-label">
-                        <input type="checkbox" name="benefits" value="cham-soc"> Chăm sóc sức khỏe
-                    </label>
-                    <label class="checkbox-label">
-                        <input type="checkbox" name="benefits" value="du-lich"> Du Lịch
-                    </label>
-                    <label class="checkbox-label">
-                        <input type="checkbox" name="benefits" value="dao-tao"> Đào tạo
-                    </label>
-                    <label class="checkbox-label">
-                        <input type="checkbox" name="benefits" value="tang-luong"> Tăng lương
-                    </label>
-                    <label class="checkbox-label">
-                        <input type="checkbox" name="benefits" value="laptop"> Laptop
-                    </label>
-                    <label class="checkbox-label">
-                        <input type="checkbox" name="benefits" value="cong-tac-phi"> Công tác phí
-                    </label>
-                    <label class="checkbox-label">
-                        <input type="checkbox" name="benefits" value="du-lich-nuoc-ngoai"> Du lịch nước ngoài
-                    </label>
-                    <label class="checkbox-label">
-                        <input type="checkbox" name="benefits" value="nghi-phep"> Nghỉ phép năm
-                    </label>
+                <div class="benefits-grid" id="benefitsGrid">
+                    <span style="color:#999;font-size:14px;">Đang tải phúc lợi...</span>
                 </div>
 
                 <!-- Work mode -->
@@ -341,32 +311,21 @@
                     <div class="form-group">
                         <label for="experience">Kinh nghiệm *</label>
                         <select id="experience" name="experience">
-                            <option value="">Chưa có kinh nghiệm</option>
-                            <option value="duoi-1-nam">Dưới 1 năm</option>
-                            <option value="1-2-nam">1-2 năm</option>
-                            <option value="2-5-nam">2-5 năm</option>
-                            <option value="tren-5-nam">Trên 5 năm</option>
+                            <option value="">Đang tải...</option>
                         </select>
                     </div>
                     
                     <div class="form-group">
                         <label for="educationLevel">Cấp bậc *</label>
                         <select id="educationLevel" name="educationLevel">
-                            <option value="">Chọn Cấp bậc</option>
-                            <option value="trung-cap">Trung cấp</option>
-                            <option value="cao-dang">Cao đẳng</option>
-                            <option value="dai-hoc">Đại học</option>
-                            <option value="thac-si">Thạc sĩ</option>
+                            <option value="">Đang tải...</option>
                         </select>
                     </div>
 
                     <div class="form-group">
                         <label for="degreeLevel">Bằng cấp *</label>
                         <select id="degreeLevel" name="degreeLevel">
-                            <option value="">Không yêu cầu bằng cấp</option>
-                            <option value="trung-hoc">Trung học</option>
-                            <option value="cao-dang">Cao đẳng</option>
-                            <option value="dai-hoc">Đại học</option>
+                            <option value="">Đang tải...</option>
                         </select>
                     </div>
                 </div>

@@ -1,5 +1,6 @@
 package Nhom08.Project.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -120,6 +121,7 @@ public class Job {
     // Quan hệ với Employer
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "employer_id", nullable = false)
+    @JsonIgnoreProperties({"user", "createdAt", "updatedAt", "taxCode", "description"})
     private Employer employer;
 
     // Constructors

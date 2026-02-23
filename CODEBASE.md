@@ -1,8 +1,11 @@
 # CODEBASE.md - CareerViet Homepage Clone
 
-> **Last Updated**: 2026-02-01  
+> **Last Updated**: 2026-02-23  
 > **Project**: Nhom08-QLTD - CareerViet Homepage Implementation  
 > **Version**: 1.0.0
+
+> 🔴 **MANDATORY READ:** Trước khi thêm bất kỳ form, dropdown, hay danh sách lựa chọn nào,  
+> hãy đọc **[DB_CONVENTIONS.md](./DB_CONVENTIONS.md)** — quy ước dữ liệu động từ DB.
 
 ---
 

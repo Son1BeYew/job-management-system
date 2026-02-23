@@ -60,6 +60,8 @@ public class JobCreateDTO {
 
     private String educationLevel;
 
+    private String degreeLevel;
+
     private String additionalInfo;
 
     // Getters and Setters
@@ -261,6 +263,14 @@ public class JobCreateDTO {
 
     public void setEducationLevel(String educationLevel) {
         this.educationLevel = educationLevel;
+    }
+
+    public String getDegreeLevel() {
+        return degreeLevel;
+    }
+
+    public void setDegreeLevel(String degreeLevel) {
+        this.degreeLevel = degreeLevel;
     }
 
     public String getAdditionalInfo() {
