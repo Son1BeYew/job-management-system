@@ -1,0 +1,44 @@
++-----------------------------------------------------------------------------------------+
+|  TARGET:  AUTH REGISTER BACKGROUND BEAUTIFUL - RECOMMENDED DESIGN SYSTEM                |
++-----------------------------------------------------------------------------------------+
+|                                                                                          |
+|  PATTERN: Video-First Hero                                                              |
+|     Conversion: 86% higher engagement with video. Add captions for accessibility. Compress video for performance.|
+|     CTA: Overlay on video (center/bottom) + Bottom section                              |
+|     Sections:                                                                           |
+|       1. 1. Hero with video background, 2. Key features overlay, 3. Benefits section, 4. CTA|
+|                                                                                          |
+|  STYLE: Organic Biophilic                                                               |
+|     Keywords: Nature, organic shapes, green, sustainable, rounded, flowing, wellness,   |
+|     earthy, natural textures                                                            |
+|     Best For: Wellness apps, sustainability brands, eco products, health apps,          |
+|     meditation, organic food brands                                                     |
+|     Performance: ⚡ Excellent | Accessibility: ✓ WCAG AA                                 |
+|                                                                                          |
+|  COLORS:                                                                                |
+|     Primary:    #2563EB                                                                 |
+|     Secondary:  #3B82F6                                                                 |
+|     CTA:        #F97316                                                                 |
+|     Background: #F8FAFC                                                                 |
+|     Text:       #1E293B                                                                 |
+|                                                                                          |
+|  TYPOGRAPHY: Inter / Inter                                                              |
+|     Mood: Elegant + Natural typography                                                  |
+|                                                                                          |
+|  KEY EFFECTS:                                                                           |
+|     Rounded corners (16-24px), organic curves (border-radius variations), natural       |
+|     shadows, flowing SVG shapes                                                         |
+|                                                                                          |
+|  AVOID (Anti-patterns):                                                                 |
+|     Poor imagery + No seasonal content                                                  |
+|                                                                                          |
+|  PRE-DELIVERY CHECKLIST:                                                                |
+|     [ ] No emojis as icons (use SVG: Heroicons/Lucide)                                  |
+|     [ ] cursor-pointer on all clickable elements                                        |
+|     [ ] Hover states with smooth transitions (150-300ms)                                |
+|     [ ] Light mode: text contrast 4.5:1 minimum                                         |
+|     [ ] Focus states visible for keyboard nav                                           |
+|     [ ] prefers-reduced-motion respected                                                |
+|     [ ] Responsive: 375px, 768px, 1024px, 1440px                                        |
+|                                                                                          |
++-----------------------------------------------------------------------------------------+
