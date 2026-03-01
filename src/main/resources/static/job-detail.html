@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="pageTitle">Chi tiết việc làm | CareerViet</title>
+    <meta name="description" id="pageDescription" content="Xem chi tiết tin tuyển dụng, mô tả công việc và yêu cầu ứng viên.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/job-detail.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <div id="header-placeholder"></div>
+
+    <!-- ===== HERO BANNER ===== -->
+    <section class="job-hero" id="jobHero">
+        <img id="heroBgImage"
+             src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=1400&q=80"
+             alt="Job Cover"
+             class="job-hero-bg"
+             onerror="this.src='https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=1400&q=80'">
+        <div class="job-hero-overlay"></div>
+        <div class="job-hero-content">
+            <div class="job-hero-info">
+                <h1 id="heroJobTitle">Đang tải...</h1>
+                <div class="company-name" id="heroCompanyName"></div>
+            </div>
+            <div class="job-hero-actions">
+                <button class="btn-translate-hero" onclick="toggleTranslate()">
+                    <i class="fas fa-language"></i> VI / EN
+                </button>
+                <button class="btn-apply-hero" onclick="scrollToApply()">NỘP ĐƠN ỨNG TUYỂN</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== TAB BAR ===== -->
+    <div class="job-tabs-bar">
+        <div class="container">
+            <div class="job-tabs">
+                <button class="job-tab active" data-tab="detail" onclick="switchTab('detail')">Chi tiết</button>
+                <button class="job-tab" data-tab="company" onclick="switchTab('company')">Tổng quan công ty</button>
+            </div>
+            <div class="job-tab-actions">
+                <button class="btn-icon-tab" title="Yêu thích" onclick="toggleFavorite(this)">
+                    <i class="far fa-heart"></i>
+                </button>
+                <button class="btn-icon-tab" title="Chia sẻ" onclick="shareJob()">
+                    <i class="fas fa-share-alt"></i>
+                </button>
+                <button class="btn-icon-tab" title="In trang">
+                    <i class="fas fa-print" onclick="window.print()"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <section class="job-detail-body">
+        <div class="container">
+            <!-- Loading state -->
+            <div id="loadingState" class="loading-state">
+                <div class="loading-spinner"></div>
+                <p>Đang tải thông tin việc làm...</p>
+            </div>
+
+            <!-- Error state -->
+            <div id="errorState" class="error-state" style="display:none;">
+                <h3>❌ Không tìm thấy việc làm</h3>
+                <p>Tin tuyển dụng này có thể đã hết hạn hoặc không tồn tại.</p>
+                <a href="tim-viec-lam.html" style="color:#0068FF;font-weight:600;margin-top:16px;display:inline-block;">
+                    ← Tìm việc làm khác
+                </a>
+            </div>
+
+            <!-- Job detail content -->
+            <div id="jobDetailContent" class="job-detail-grid" style="display:none;">
+
+                <!-- ===== LEFT COLUMN ===== -->
+                <div class="job-detail-left">
+
+                    <!-- Tab: Chi tiết -->
+                    <div id="tabDetail">
+
+                        <!-- Thông tin cơ bản -->
+                        <div class="jd-card">
+                            <div class="job-info-grid">
+                                <div class="job-info-item">
+                                    <span class="job-info-label">
+                                        <i class="fas fa-map-marker-alt"></i> Địa điểm
+                                    </span>
+                                    <span class="job-info-value highlight" id="infoLocation">—</span>
+                                    <div class="map-placeholder">
+                                        <span class="map-label"><i class="fas fa-map-marker-alt"></i> Địa chỉ chi tiết đã được bảo mật</span>
+                                    </div>
+                                </div>
+                                <div class="job-info-item">
+                                    <span class="job-info-label">
+                                        <i class="fas fa-sync-alt"></i> Ngày cập nhật
+                                    </span>
+                                    <span class="job-info-value" id="infoUpdatedAt">—</span>
+
+                                    <span class="job-info-label" style="margin-top:14px;">
+                                        <i class="fas fa-briefcase"></i> Ngành nghề
+                                    </span>
+                                    <span class="job-info-value link-style" id="infoIndustry">—</span>
+
+                                    <span class="job-info-label" style="margin-top:14px;">
+                                        <i class="fas fa-clock"></i> Hình thức
+                                    </span>
+                                    <span class="job-info-value" id="infoEmploymentType">—</span>
+                                </div>
+                                <div class="job-info-item">
+                                    <span class="job-info-label">
+                                        <i class="fas fa-dollar-sign"></i> Lương
+                                    </span>
+                                    <span class="job-info-value" id="infoSalary">—</span>
+
+                                    <span class="job-info-label" style="margin-top:14px;">
+                                        <i class="fas fa-user"></i> Cấp bậc
+                                    </span>
+                                    <span class="job-info-value" id="infoLevel">—</span>
+
+                                    <span class="job-info-label" style="margin-top:14px;">
+                                        <i class="fas fa-calendar-times"></i> Hết hạn nộp
+                                    </span>
+                                    <span class="job-info-value" id="infoDeadline">—</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Phúc lợi -->
+                        <div class="jd-card" id="benefitsCard" style="display:none;">
+                            <div class="jd-card-title">Phúc lợi</div>
+                            <div class="benefits-grid" id="benefitsList"></div>
+                        </div>
+
+                        <!-- Mô tả công việc -->
+                        <div class="jd-card" id="descriptionCard" style="display:none;">
+                            <div class="jd-card-title">Mô tả công việc</div>
+                            <div class="job-description" id="jobDescription"></div>
+                        </div>
+
+                        <!-- Yêu cầu công việc -->
+                        <div class="jd-card" id="requirementsCard" style="display:none;">
+                            <div class="jd-card-title">Yêu cầu công việc</div>
+                            <div class="job-description" id="jobRequirements"></div>
+                        </div>
+
+                        <!-- Thông tin khác -->
+                        <div class="jd-card" id="otherInfoCard" style="display:none;">
+                            <div class="jd-card-title">Thông tin khác</div>
+                            <ul class="other-info-list" id="otherInfoList"></ul>
+                        </div>
+
+                        <!-- Gợi ý hồ sơ & Chia sẻ -->
+                        <div class="jd-card">
+                            <div class="jd-card-title" style="font-size:14px;text-transform:none;font-weight:700;">Gợi ý hồ sơ</div>
+                            <a href="cv-editor.html" class="cv-suggestion">
+                                <div class="cv-icon">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                        <polyline points="14,2 14,8 20,8"/>
+                                    </svg>
+                                </div>
+                                Thiết kế CV Ứng Tuyển
+                            </a>
+
+                            <div class="share-row">
+                                <span>Chia sẻ việc làm này:</span>
+                                <div class="share-icons">
+                                    <a href="#" class="share-icon" title="Facebook" onclick="shareToFacebook()">
+                                        <i class="fab fa-facebook-f"></i>
+                                    </a>
+                                    <a href="#" class="share-icon" title="LinkedIn" onclick="shareToLinkedIn()">
+                                        <i class="fab fa-linkedin-in"></i>
+                                    </a>
+                                    <a href="#" class="share-icon" title="Google" onclick="shareToGoogle()">
+                                        <i class="fab fa-google"></i>
+                                    </a>
+                                    <a href="#" class="share-icon" title="Copy link" onclick="copyLink()">
+                                        <i class="fas fa-link"></i>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- Job Tags -->
+                            <div style="margin-top:20px;">
+                                <div class="tags-section-title">Job Tags / Skills</div>
+                                <div class="job-tags" id="jobTagsList"></div>
+                            </div>
+                        </div>
+
+                        <!-- Việc làm tương tự -->
+                        <div class="jd-card" id="similarJobsCard" style="display:none;">
+                            <div class="similar-jobs-title">Các công việc tương tự</div>
+                            <div id="similarJobsList"></div>
+                        </div>
+
+                    </div>
+
+                    <!-- Tab: Tổng quan công ty -->
+                    <div id="tabCompany" style="display:none;">
+                        <div class="jd-card">
+                            <div class="jd-card-title">Tổng quan công ty</div>
+                            <div id="companyOverview" style="font-size:14px;line-height:1.85;color:#2c3e50;">
+                                <div class="loading-state" style="padding:30px 0;">
+                                    <div class="loading-spinner"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- ===== RIGHT SIDEBAR ===== -->
+                <aside class="job-detail-sidebar">
+
+                    <!-- Đánh giá mức độ tương thích -->
+                    <div class="compat-card">
+                        <div class="compat-title">Đánh giá mức độ tương thích</div>
+                        <div class="compat-radar-wrapper">
+                            <svg class="radar-chart" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                                <!-- Grid polygons -->
+                                <polygon points="100,10 161,55 139,126 61,126 39,55" fill="none" stroke="#e8ecef" stroke-width="1"/>
+                                <polygon points="100,30 145,65 128,112 72,112 55,65" fill="none" stroke="#e8ecef" stroke-width="1"/>
+                                <polygon points="100,50 129,76 117,97 83,97 71,76" fill="none" stroke="#e8ecef" stroke-width="1"/>
+                                <!-- Axes -->
+                                <line x1="100" y1="100" x2="100" y2="10" stroke="#e8ecef" stroke-width="1"/>
+                                <line x1="100" y1="100" x2="161" y2="55" stroke="#e8ecef" stroke-width="1"/>
+                                <line x1="100" y1="100" x2="139" y2="126" stroke="#e8ecef" stroke-width="1"/>
+                                <line x1="100" y1="100" x2="61" y2="126" stroke="#e8ecef" stroke-width="1"/>
+                                <line x1="100" y1="100" x2="39" y2="55" stroke="#e8ecef" stroke-width="1"/>
+                                <!-- Data polygon -->
+                                <polygon id="radarData"
+                                    points="100,70 125,78 115,108 85,108 75,78"
+                                    fill="rgba(0,191,165,0.25)" stroke="#00BFA5" stroke-width="2"/>
+                                <!-- Axis labels -->
+                                <text x="100" y="6" text-anchor="middle" font-size="8" fill="#6c757d">Địa điểm làm việc</text>
+                                <text x="168" y="55" text-anchor="start" font-size="8" fill="#6c757d">Ngoại ngữ</text>
+                                <text x="142" y="138" text-anchor="middle" font-size="8" fill="#6c757d">Mức lương</text>
+                                <text x="58" y="138" text-anchor="middle" font-size="8" fill="#6c757d">Tiêu đề công việc</text>
+                                <text x="28" y="55" text-anchor="end" font-size="8" fill="#6c757d">Kỹ năng</text>
+                                <!-- Outer labels -->
+                                <text x="168" y="90" text-anchor="start" font-size="7" fill="#adb5bd">5 năm kinh nghiệm</text>
+                                <text x="30" y="90" text-anchor="end" font-size="7" fill="#adb5bd">Trình độ học vấn</text>
+                                <text x="100" y="155" text-anchor="middle" font-size="7" fill="#adb5bd">Kinh nghiệm liên quan</text>
+                            </svg>
+                            <div class="compat-percent" id="compatPercent">15%</div>
+                        </div>
+                        <button class="btn-compare" onclick="openProfileComparison()">
+                            GỬI HỒ SƠ ĐÁNH GIÁ TƯƠNG THÍCH
+                        </button>
+                    </div>
+
+                    <!-- Tiêu chí đánh giá -->
+                    <div class="criteria-card">
+                        <div class="criteria-title">Tiêu chí đánh giá</div>
+
+                        <div class="criteria-section">
+                            <div class="criteria-section-title">Tổng quan</div>
+                            <div id="criteriaGeneral">
+                                <div class="criteria-item">
+                                    <span class="criteria-dot"></span>
+                                    <span>Đang tải...</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="criteria-section">
+                            <div class="criteria-section-title">Kinh nghiệm</div>
+                            <div id="criteriaExperience">
+                                <div class="criteria-item">
+                                    <span class="criteria-dot"></span>
+                                    <span id="criteriaExpText">—</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="criteria-section">
+                            <div class="criteria-section-title">Bằng cấp</div>
+                            <div id="criteriaDegree">
+                                <div class="criteria-item">
+                                    <span class="criteria-dot"></span>
+                                    <span id="criteriaDegreeText">—</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="criteria-section">
+                            <div class="criteria-section-title">Kỹ năng</div>
+                            <div id="criteriaSkills">
+                                <div class="criteria-item">
+                                    <span class="criteria-dot"></span>
+                                    <span>—</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="criteria-section">
+                            <div class="criteria-section-title">Kỹ năng bạn còn thiếu</div>
+                            <div id="criteriaLacking">
+                                <div class="criteria-item" style="color:#6c757d;font-size:12px;">
+                                    <span>Đăng nhập để xem phân tích chi tiết</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </aside>
+
+            </div><!-- end job-detail-grid -->
+        </div>
+    </section>
+
+    <!-- ===== STICKY BOTTOM BAR ===== -->
+    <div class="sticky-bottom-bar" id="stickyBar" style="display:none;">
+        <div class="sticky-left">
+            <div class="sticky-logo" onclick="scrollToTop()">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <polygon points="13,2 3,14 12,14 11,22 21,10 12,10 13,2"/>
+                </svg>
+            </div>
+            <button class="btn-sticky-save" onclick="toggleFavoriteSticky(this)">
+                <i class="far fa-heart"></i>
+            </button>
+            <button class="btn-sticky-send" onclick="sendSimilarJob()">
+                <i class="fas fa-envelope"></i> Gửi tôi việc làm tương tự
+            </button>
+            <button class="btn-sticky-report" onclick="reportJob()">
+                <i class="fas fa-flag"></i> Báo xấu
+            </button>
+        </div>
+        <button class="btn-apply-sticky" onclick="applyJob()">NỘP ĐƠN ỨNG TUYỂN</button>
+    </div>
+
+    <!-- Zalo -->
+    <a href="#" class="zalo-chat" style="bottom: 90px;">
+        <img src="images/zalo-icon.png" alt="Zalo"
+             onerror="this.parentElement.style.background='#0068FF';this.style.display='none';this.parentElement.innerHTML='<span style=\'color:#fff;font-weight:700;font-size:12px;\'>Zalo</span>'">
+    </a>
+
+    <!-- Footer -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+    <script>
+    // ===========================
+    // JOB DETAIL PAGE LOGIC
+    // ===========================
+
+    let currentJob = null;
+
+    // Benefit icons mapping
+    const BENEFIT_ICONS = {
+        'Chế độ bảo hiểm':   'fa-shield-alt',
+        'Du Lịch':            'fa-plane',
+        'Phụ cấp':            'fa-coins',
+        'Đồng phục':          'fa-tshirt',
+        'Chế độ thưởng':      'fa-gift',
+        'Chăm sóc sức khỏe':  'fa-heartbeat',
+        'Đào tạo':            'fa-graduation-cap',
+        'Tăng lương':         'fa-chart-line',
+        'Công tác phí':       'fa-credit-card',
+        'Phụ cấp thâm niên':  'fa-award',
+        'Nghỉ phép năm':      'fa-umbrella-beach',
+        'Laptop':             'fa-laptop',
+        'default':            'fa-check-circle'
+    };
+
+    // ---- Get job ID from URL ----
+    function getJobIdFromUrl() {
+        const params = new URLSearchParams(window.location.search);
+        return params.get('id');
+    }
+
+    // ---- Format date ----
+    function formatDate(dateStr) {
+        if (!dateStr) return '—';
+        try {
+            const d = new Date(dateStr);
+            if (isNaN(d.getTime())) return dateStr;
+            return d.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        } catch { return dateStr; }
+    }
+
+    // ---- Format salary ----
+    function formatSalary(job) {
+        if (!job.showSalary) return 'Thỏa thuận';
+        if (!job.salaryMin && !job.salaryMax) return 'Thỏa thuận';
+        const currency = job.currency || 'VND';
+        if (job.salaryMin && job.salaryMax) {
+            const min = (job.salaryMin / 1_000_000).toFixed(1).replace('.0','');
+            const max = (job.salaryMax / 1_000_000).toFixed(1).replace('.0','');
+            return `${min} Tr - ${max} Tr ${currency}`;
+        }
+        if (job.salaryMin) {
+            const min = (job.salaryMin / 1_000_000).toFixed(1).replace('.0','');
+            return `Từ ${min} Tr ${currency}`;
+        }
+        if (job.salaryMax) {
+            const max = (job.salaryMax / 1_000_000).toFixed(1).replace('.0','');
+            return `Đến ${max} Tr ${currency}`;
+        }
+        return 'Thỏa thuận';
+    }
+
+    // ---- Parse benefits JSON ----
+    function parseBenefits(benefitsStr) {
+        if (!benefitsStr) return [];
+        try {
+            const parsed = JSON.parse(benefitsStr);
+            return Array.isArray(parsed) ? parsed : [];
+        } catch {
+            // Try comma-separated
+            return benefitsStr.split(',').map(s => s.trim()).filter(Boolean);
+        }
+    }
+
+    // ---- Render text with line breaks ----
+    function renderText(text) {
+        if (!text) return '';
+        return text
+            .split('\n')
+            .map(line => line.trim())
+            .map(line => line ? `<p>${line}</p>` : '<br>')
+            .join('');
+    }
+
+    // ---- Render benefits ----
+    function renderBenefits(benefits) {
+        if (!benefits || benefits.length === 0) return;
+        const card = document.getElementById('benefitsCard');
+        const list = document.getElementById('benefitsList');
+        card.style.display = 'block';
+        list.innerHTML = benefits.map(b => {
+            const icon = BENEFIT_ICONS[b] || BENEFIT_ICONS['default'];
+            return `
+                <div class="benefit-item">
+                    <i class="fas ${icon} benefit-icon" style="width:16px;height:16px;color:#6c757d;"></i>
+                    <span>${b}</span>
+                </div>
+            `;
+        }).join('');
+    }
+
+    // ---- Render criteria sidebar ----
+    function renderCriteria(job) {
+        const employer = job.employer || {};
+
+        // General criteria
+        const generalItems = [
+            { label: `Địa điểm làm việc: ${job.location || '—'}`, matched: false },
+            { label: 'Mức lương', matched: true },
+            { label: `Ngành nghề: ${job.industry || '—'}`, matched: false },
+            { label: `Chức danh: ${job.title || '—'}`, matched: false },
+        ];
+
+        document.getElementById('criteriaGeneral').innerHTML = generalItems.map(item => `
+            <div class="criteria-item">
+                <span class="criteria-dot ${item.matched ? 'matched' : 'unmet'}"></span>
+                <span>${item.label}</span>
+            </div>
+        `).join('');
+
+        // Experience
+        document.getElementById('criteriaExpText').textContent =
+            `Số năm kinh nghiệm: ${job.experience || '—'}`;
+
+        // Degree
+        document.getElementById('criteriaDegreeText').textContent =
+            `Trình độ học vấn: ${job.educationLevel || '—'}`;
+
+        // Skills (from title keywords)
+        const skills = job.title ? job.title.split(/[\s,]+/).filter(s => s.length > 2).slice(0, 3) : [];
+        if (skills.length > 0) {
+            document.getElementById('criteriaSkills').innerHTML = skills.map(s => `
+                <div class="criteria-item">
+                    <span class="criteria-dot unmet"></span>
+                    <span>${s}</span>
+                </div>
+            `).join('');
+        }
+    }
+
+    // ---- Render similar jobs ----
+    function renderSimilarJobs(jobs, currentId) {
+        const similar = jobs.filter(j => j.id != currentId && j.status === 'ACTIVE').slice(0, 5);
+        if (similar.length === 0) return;
+
+        const card = document.getElementById('similarJobsCard');
+        const list = document.getElementById('similarJobsList');
+        card.style.display = 'block';
+
+        list.innerHTML = similar.map(job => {
+            const employer = job.employer || {};
+            const logo = employer.logoUrl
+                ? `<img src="${employer.logoUrl}" alt="${employer.companyName}" onerror="this.style.display='none'">`
+                : `<i class="fas fa-building" style="font-size:22px;color:#adb5bd;"></i>`;
+
+            const tags = parseBenefits(job.benefits).slice(0, 3).map(b =>
+                `<span class="similar-job-tag">${b}</span>`
+            ).join('');
+
+            return `
+                <div class="similar-job-card" onclick="window.location.href='job-detail.html?id=${job.id}'">
+                    <div class="similar-job-logo">${logo}</div>
+                    <div class="similar-job-info">
+                        <div class="similar-job-title">${job.title}</div>
+                        <div class="similar-job-company">${employer.companyName || ''}</div>
+                        <div class="similar-job-salary">
+                            <i class="fas fa-dollar-sign" style="font-size:11px;"></i>
+                            ${formatSalary(job)}
+                        </div>
+                        <div class="similar-job-meta">
+                            <span><i class="fas fa-map-marker-alt"></i> ${job.location || ''}</span>
+                            <span><i class="fas fa-calendar-times"></i> Hạn nộp: ${formatDate(job.deadline)}</span>
+                            ${job.updatedAt ? `<span><i class="fas fa-clock"></i> Cập nhật: ${formatDate(job.updatedAt)}</span>` : ''}
+                        </div>
+                        ${tags ? `<div class="similar-job-tags">${tags}</div>` : ''}
+                    </div>
+                    <div class="similar-job-action">
+                        <button class="btn-save-similar" onclick="event.stopPropagation();toggleSaveSimilar(this)">
+                            <i class="far fa-heart"></i>
+                        </button>
+                        <button class="btn-apply-now" onclick="event.stopPropagation();applyToJob(${job.id})">
+                            ỨNG TUYỂN NGAY
+                        </button>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    // ---- Build job tags ----
+    function buildJobTags(job) {
+        const tags = [];
+        if (job.title) {
+            job.title.split(/[\s/&]+/).filter(w => w.length > 2).slice(0, 3).forEach(w => tags.push(w));
+        }
+        if (job.industry) tags.push(job.industry.split('/')[0].trim());
+        if (job.experience) tags.push(job.experience);
+        return [...new Set(tags)].slice(0, 8);
+    }
+
+    // ---- Render company overview tab ----
+    function renderCompanyOverview(job) {
+        const employer = job.employer || {};
+        const overview = document.getElementById('companyOverview');
+        overview.innerHTML = `
+            <div style="display:flex;gap:20px;margin-bottom:20px;align-items:center;">
+                ${employer.logoUrl ? `<img src="${employer.logoUrl}" alt="${employer.companyName}" style="width:80px;height:80px;object-fit:contain;border-radius:8px;border:1px solid #e8ecef;">` : ''}
+                <div>
+                    <h2 style="font-size:20px;font-weight:800;color:#1a1a2e;margin-bottom:6px;">${employer.companyName || '—'}</h2>
+                    ${employer.website ? `<a href="${employer.website}" target="_blank" style="color:#0068FF;font-size:13px;">${employer.website}</a>` : ''}
+                </div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;">
+                <div>
+                    <div style="font-size:12px;color:#6c757d;font-weight:700;text-transform:uppercase;margin-bottom:4px;">Loại hình công ty</div>
+                    <div style="font-size:14px;">${employer.businessType || '—'}</div>
+                </div>
+                <div>
+                    <div style="font-size:12px;color:#6c757d;font-weight:700;text-transform:uppercase;margin-bottom:4px;">Quy mô</div>
+                    <div style="font-size:14px;">${employer.employeeCount || '—'} nhân viên</div>
+                </div>
+                <div>
+                    <div style="font-size:12px;color:#6c757d;font-weight:700;text-transform:uppercase;margin-bottom:4px;">Quốc gia</div>
+                    <div style="font-size:14px;">${employer.country || 'Việt Nam'}</div>
+                </div>
+                <div>
+                    <div style="font-size:12px;color:#6c757d;font-weight:700;text-transform:uppercase;margin-bottom:4px;">Địa điểm</div>
+                    <div style="font-size:14px;">${employer.address || employer.province || '—'}</div>
+                </div>
+            </div>
+            ${employer.description ? `
+                <div>
+                    <div style="font-size:12px;color:#6c757d;font-weight:700;text-transform:uppercase;margin-bottom:10px;">Giới thiệu công ty</div>
+                    <div style="font-size:14px;line-height:1.85;color:#2c3e50;">${renderText(employer.description)}</div>
+                </div>
+            ` : ''}
+        `;
+    }
+
+    // ---- Main: load job data ----
+    async function loadJobDetail() {
+        const jobId = getJobIdFromUrl();
+
+        if (!jobId) {
+            showError();
+            return;
+        }
+
+        try {
+            // Fetch job detail & all active jobs in parallel
+            const [jobRes, allJobsRes] = await Promise.all([
+                fetch(`/api/jobs/${jobId}`, { credentials: 'include' }),
+                fetch('/api/jobs/active', { credentials: 'include' })
+            ]);
+
+            if (!jobRes.ok) {
+                showError();
+                return;
+            }
+
+            const job = await jobRes.json();
+            const allJobs = allJobsRes.ok ? await allJobsRes.json() : [];
+            currentJob = job;
+
+            renderJobDetail(job, allJobs);
+
+        } catch (err) {
+            console.error('Error loading job:', err);
+            showError();
+        }
+    }
+
+    // ---- Render full job detail ----
+    function renderJobDetail(job, allJobs) {
+        const employer = job.employer || {};
+
+        // Page title & meta
+        document.getElementById('pageTitle').textContent = `${job.title} | ${employer.companyName || ''} | CareerViet`;
+        document.getElementById('pageDescription').content =
+            `Tuyển dụng ${job.title} tại ${employer.companyName || ''}. ${job.description ? job.description.substring(0, 150) : ''}`;
+
+        // Hero
+        document.getElementById('heroJobTitle').textContent = job.title || '—';
+        document.getElementById('heroCompanyName').textContent = employer.companyName || '';
+
+        // Set hero bg based on industry
+        if (employer.logoUrl) {
+            // Keep default professional image
+        }
+
+        // Info grid
+        document.getElementById('infoLocation').textContent = job.location || '—';
+        document.getElementById('infoUpdatedAt').textContent =
+            job.updatedAt ? formatDate(job.updatedAt) : formatDate(job.createdAt);
+        document.getElementById('infoIndustry').textContent = job.industry || '—';
+        document.getElementById('infoEmploymentType').textContent = job.employmentType || 'Nhân viên chính thức';
+        document.getElementById('infoSalary').textContent = formatSalary(job);
+        document.getElementById('infoLevel').textContent = job.educationLevel || 'Nhân viên';
+        document.getElementById('infoDeadline').textContent = formatDate(job.deadline);
+
+        // Benefits
+        const benefits = parseBenefits(job.benefits);
+        renderBenefits(benefits);
+
+        // Description
+        if (job.description) {
+            document.getElementById('descriptionCard').style.display = 'block';
+            document.getElementById('jobDescription').innerHTML = renderText(job.description);
+        }
+
+        // Requirements
+        if (job.requirements) {
+            document.getElementById('requirementsCard').style.display = 'block';
+            document.getElementById('jobRequirements').innerHTML = renderText(job.requirements);
+        }
+
+        // Other info — luôn hiển thị 3 dòng cố định
+        const bangCap  = job.educationLevel || '—';
+        const doTuoi   = (job.ageMin || job.ageMax)
+            ? [job.ageMin, job.ageMax].filter(Boolean).join(' - ')
+            : '—';
+        const luong    = (job.salaryMin || job.salaryMax) ? formatSalary(job) : '—';
+
+        const otherInfoItems = [
+            `Bằng cấp: ${bangCap}`,
+            `Độ tuổi: ${doTuoi}`,
+            `Lương: ${luong}`
+        ];
+
+        // Thêm giới tính và thông tin bổ sung nếu có
+        if (job.gender) otherInfoItems.push(`Giới tính: ${job.gender}`);
+        if (job.additionalInfo) otherInfoItems.push(job.additionalInfo);
+
+        document.getElementById('otherInfoCard').style.display = 'block';
+        document.getElementById('otherInfoList').innerHTML =
+            otherInfoItems.map(item => `<li>${item}</li>`).join('');
+
+        // Tags
+        const tags = buildJobTags(job);
+        document.getElementById('jobTagsList').innerHTML =
+            tags.map(t => `<span class="job-tag">${t}</span>`).join('');
+
+        // Criteria sidebar
+        renderCriteria(job);
+
+        // Company overview
+        renderCompanyOverview(job);
+
+        // Similar jobs
+        renderSimilarJobs(allJobs, job.id);
+
+        // Show content
+        document.getElementById('loadingState').style.display = 'none';
+        document.getElementById('jobDetailContent').style.display = 'grid';
+        document.getElementById('stickyBar').style.display = 'flex';
+    }
+
+    function showError() {
+        document.getElementById('loadingState').style.display = 'none';
+        document.getElementById('errorState').style.display = 'block';
+    }
+
+    // ---- Tab switching ----
+    function switchTab(tabName) {
+        document.querySelectorAll('.job-tab').forEach(t => t.classList.remove('active'));
+        document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+        document.getElementById('tabDetail').style.display = tabName === 'detail' ? 'block' : 'none';
+        document.getElementById('tabCompany').style.display = tabName === 'company' ? 'block' : 'none';
+    }
+
+    // ---- Actions ----
+    function toggleFavorite(btn) {
+        const icon = btn.querySelector('i');
+        if (icon.classList.contains('far')) {
+            icon.classList.replace('far', 'fas');
+            icon.style.color = '#EE0033';
+        } else {
+            icon.classList.replace('fas', 'far');
+            icon.style.color = '';
+        }
+    }
+
+    function toggleFavoriteSticky(btn) {
+        const icon = btn.querySelector('i');
+        if (icon.classList.contains('far')) {
+            icon.classList.replace('far', 'fas');
+            icon.style.color = '#EE0033';
+        } else {
+            icon.classList.replace('fas', 'far');
+            icon.style.color = '';
+        }
+        // Sync tab bar favorite button
+        const tabFav = document.querySelector('.btn-icon-tab i.fa-heart');
+        if (tabFav) {
+            tabFav.className = icon.className;
+            tabFav.style.color = icon.style.color;
+        }
+    }
+
+    function toggleSaveSimilar(btn) {
+        const icon = btn.querySelector('i');
+        if (icon.classList.contains('far')) {
+            icon.classList.replace('far', 'fas');
+            icon.style.color = '#EE0033';
+        } else {
+            icon.classList.replace('fas', 'far');
+            icon.style.color = '';
+        }
+    }
+
+    function applyJob() {
+        if (!currentJob) return;
+        window.location.href = `apply-job.html?id=${currentJob.id}`;
+    }
+
+    function applyToJob(jobId) {
+        window.location.href = `apply-job.html?id=${jobId}`;
+    }
+
+    function scrollToApply() {
+        applyJob();
+    }
+
+    function scrollToTop() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function toggleTranslate() {
+        alert('Tính năng dịch nội dung sẽ sớm được cập nhật!');
+    }
+
+    function shareJob() {
+        if (navigator.share) {
+            navigator.share({
+                title: document.title,
+                url: window.location.href
+            });
+        } else {
+            copyLink();
+        }
+    }
+
+    function shareToFacebook() {
+        const url = encodeURIComponent(window.location.href);
+        window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank');
+    }
+
+    function shareToLinkedIn() {
+        const url = encodeURIComponent(window.location.href);
+        window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}`, '_blank');
+    }
+
+    function shareToGoogle() {
+        alert('Chia sẻ qua Google+');
+    }
+
+    function copyLink() {
+        navigator.clipboard.writeText(window.location.href).then(() => {
+            alert('Đã sao chép link!');
+        }).catch(() => {
+            prompt('Link việc làm:', window.location.href);
+        });
+    }
+
+    function sendSimilarJob() {
+        alert('Chúng tôi sẽ gửi email các việc làm tương tự cho bạn!');
+    }
+
+    function reportJob() {
+        const reasons = ['Tin tức giả mạo', 'Nội dung không phù hợp', 'Lừa đảo', 'Khác'];
+        const reason = prompt(`Lý do báo xấu:\n${reasons.map((r,i) => `${i+1}. ${r}`).join('\n')}\n\nNhập số:`);
+        if (reason) {
+            alert('Đã ghi nhận báo cáo của bạn. Cảm ơn!');
+        }
+    }
+
+    function openProfileComparison() {
+        alert('Tính năng so sánh hồ sơ sẽ sớm được cập nhật!');
+    }
+
+    // ---- Init ----
+    document.addEventListener('DOMContentLoaded', () => {
+        loadJobDetail();
+    });
+    </script>
+</body>
+</html>
